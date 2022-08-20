@@ -1,0 +1,6 @@
+{
+  "src/**/*.{js,jsx,ts,tsx,json}": [
+    "eslint --fix",
+    "node_modules/.bin/eslint --max-warnings=0"
+  ]
+}
