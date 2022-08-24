@@ -10,23 +10,26 @@ import Typography from '@mui/material/Typography'
 import Menu from '@mui/material/Menu'
 import MenuIcon from '@mui/icons-material/Menu'
 import Container from '@mui/material/Container'
-import AdbIcon from '@mui/icons-material/Adb'
-import Button from '@mui/material/Button'
+import AddTaskIcon from '@mui/icons-material/AddTask'; import Button from '@mui/material/Button'
 import MenuItem from '@mui/material/MenuItem'
 import { styled } from '@mui/material/styles'
 
 const links = [
   {
-    to: '/login',
+    to: 'login',
     label: 'Login',
   },
   {
-    to: '/signup',
+    to: 'signup',
     label: 'Sign up',
   },
   {
-    to: '/task-manager',
+    to: 'task-manager',
     label: 'Task manager',
+  },
+  {
+    to: 'profile',
+    label: 'Profile',
   },
 ]
 
@@ -41,7 +44,7 @@ const setButtonActiveStyles = (Elem: FC) => styled(props => (
 const StyledButton = setButtonActiveStyles(Button)
 const StyledMenuItem = setButtonActiveStyles(MenuItem)
 
-const ResponsiveAppBar: FC = () => {
+const Header: FC = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null)
 
   const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
@@ -56,7 +59,7 @@ const ResponsiveAppBar: FC = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <AddTaskIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -72,7 +75,7 @@ const ResponsiveAppBar: FC = () => {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            Task Manager
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -116,7 +119,7 @@ const ResponsiveAppBar: FC = () => {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <AddTaskIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
@@ -153,4 +156,4 @@ const ResponsiveAppBar: FC = () => {
     </AppBar>
   )
 }
-export default ResponsiveAppBar
+export default Header

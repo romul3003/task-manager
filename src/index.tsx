@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
-import { CssBaseline } from '@mui/material'
+import { CssBaseline, GlobalStyles } from '@mui/material'
 import App from './App'
 
 const root = ReactDOM.createRoot(
@@ -8,6 +8,7 @@ const root = ReactDOM.createRoot(
 )
 root.render(
   <CssBaseline>
+    <GlobalStyles styles={{ body: { backgroundColor: '#f8fafb' } }} />
     <BrowserRouter>
       <App />
     </BrowserRouter>
