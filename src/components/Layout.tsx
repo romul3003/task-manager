@@ -6,7 +6,7 @@ import Header from './Header'
 const Layout: FC = () => (
   <>
     <Header />
-    <Container>
+    <Container sx={{ marginTop: '4rem' }}>
       <main>
         <Outlet />
       </main>

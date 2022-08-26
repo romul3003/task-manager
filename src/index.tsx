@@ -8,7 +8,15 @@ const root = ReactDOM.createRoot(
 )
 root.render(
   <CssBaseline>
-    <GlobalStyles styles={{ body: { backgroundColor: '#f8fafb' } }} />
+    <GlobalStyles styles={{
+      body: {
+        backgroundColor: '#f8fafb',
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+      },
+    }}
+    />
     <BrowserRouter>
       <App />
     </BrowserRouter>
