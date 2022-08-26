@@ -1,6 +1,5 @@
 import { FC } from 'react'
 import { useFormik } from 'formik'
-
 import {
   Box, TextField, Typography, Link, Button,
 } from '@mui/material'
@@ -16,15 +15,16 @@ const SignUpForm: FC = () => {
       confirmPassword: '',
     },
     validationSchema,
-    onSubmit: (values) => {
+    onSubmit: (values, { resetForm }) => {
       console.log('valuer >> ', JSON.stringify(values, null, 2))
+      resetForm()
     },
   })
 
   console.log('formik >> ', formik)
 
   const {
-    values, errors, touched, handleSubmit, handleChange, handleBlur,
+    errors, touched, handleSubmit, getFieldProps, isValid, dirty,
   } = formik
 
   return (
@@ -48,54 +48,44 @@ const SignUpForm: FC = () => {
       >
         Registration
       </Typography>
+
       <TextField
-        name="name"
-        onChange={handleChange}
-        onBlur={handleBlur}
-        value={values.name}
         label="Name"
         margin="normal"
         fullWidth
         error={!!(errors.name && touched.name)}
         helperText={errors.name && touched.name && errors.name}
+        {...getFieldProps('name')}
       />
 
       <TextField
-        name="email"
         type="email"
-        onChange={handleChange}
-        onBlur={handleBlur}
-        value={values.email}
         label="Email"
         margin="normal"
         fullWidth
         error={!!(errors.email && touched.email)}
         helperText={errors.email && touched.email && errors.email}
+        {...getFieldProps('email')}
       />
 
       <TextField
-        name="password"
         type="password"
-        onChange={handleChange}
-        onBlur={handleBlur}
-        value={values.password}
         label="Password"
         margin="normal"
         fullWidth
-        error={!!errors.password && touched.password}
+        error={!!(errors.password && touched.password)}
         helperText={errors.password && touched.password && errors.password}
+        {...getFieldProps('password')}
       />
+
       <TextField
-        name="confirmPassword"
         type="password"
-        onChange={handleChange}
-        onBlur={handleBlur}
-        value={values.confirmPassword}
         label="Confirm password"
         margin="normal"
         fullWidth
         error={!!errors.confirmPassword && touched.confirmPassword}
         helperText={errors.confirmPassword && touched.confirmPassword && errors.confirmPassword}
+        {...getFieldProps('confirmPassword')}
       />
 
       <Box sx={{ textAlign: 'center' }}>
@@ -103,6 +93,7 @@ const SignUpForm: FC = () => {
           <Button
             type="submit"
             variant="contained"
+            disabled={!dirty || !isValid}
             sx={{
               minWidth: {
                 xs: '100%',
