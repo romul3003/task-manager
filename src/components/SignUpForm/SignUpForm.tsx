@@ -1,12 +1,26 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { useFormik } from 'formik'
 import {
   Box, TextField, Typography, Link, Button,
 } from '@mui/material'
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { validationSchema } from './config'
+import { fetchCredentials } from '../../redux/auth/actions'
+import { AppState } from '../../init/rootReducer'
+import { AuthState } from '../../redux/auth/reducer'
 
 const SignUpForm: FC = () => {
+  const { token } = useSelector<AppState, AuthState>(state => state.auth)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (token) {
+      navigate('/task-manager', { replace: true })
+    }
+  }, [navigate, token])
+
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -15,13 +29,12 @@ const SignUpForm: FC = () => {
       confirmPassword: '',
     },
     validationSchema,
+    enableReinitialize: true,
     onSubmit: (values, { resetForm }) => {
-      console.log('valuer >> ', JSON.stringify(values, null, 2))
+      dispatch(fetchCredentials(values))
       resetForm()
     },
   })
-
-  console.log('formik >> ', formik)
 
   const {
     errors, touched, handleSubmit, getFieldProps, isValid, dirty,
