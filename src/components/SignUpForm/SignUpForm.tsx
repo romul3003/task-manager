@@ -6,12 +6,12 @@ import {
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { validationSchema } from './config'
-import { loadSighUpStart } from '../../redux/login/actions'
+import { loadSighUpStart } from '../../redux/auth/actions'
 import { AppState } from '../../init/rootReducer'
-import { LoginState } from '../../redux/login/reducer'
+import { AuthState } from '../../redux/auth/reducer'
 
 const SignUpForm: FC = () => {
-  const { token } = useSelector<AppState, LoginState>(state => state.auth)
+  const { token } = useSelector<AppState, AuthState>(state => state.auth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 

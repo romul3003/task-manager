@@ -1,4 +1,4 @@
-import { SignUpCredentials, LoginCredentials } from '../redux/login/types'
+import { SignUpCredentials, LoginCredentials } from '../redux/auth/types'
 
 export const api = {
   async signUp(credentials: SignUpCredentials) {

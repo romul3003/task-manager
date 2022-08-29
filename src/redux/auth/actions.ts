@@ -1,9 +1,20 @@
 import {
-  AuthActionTypes, AuthCredentials, LoadAuthStartAction, LoadAuthSuccessAction, LoadAuthFailureAction,
+  AuthActionTypes,
+  LoadLoginStartAction,
+  SignUpCredentials,
+  LoadSighUpStartAction,
+  LoginCredentials,
+  LoadAuthSuccessAction,
+  LoadAuthFailureAction,
 } from './types'
 
-export const loadAuthStart = (credentials: AuthCredentials): LoadAuthStartAction => ({
-  type: AuthActionTypes.LOAD_AUTH_START,
+export const loadSighUpStart = (credentials: SignUpCredentials): LoadSighUpStartAction => ({
+  type: AuthActionTypes.LOAD_SIGH_UP_START,
+  payload: credentials,
+})
+
+export const loadLoginStart = (credentials: LoginCredentials): LoadLoginStartAction => ({
+  type: AuthActionTypes.LOAD_LOGIN_START,
   payload: credentials,
 })
 

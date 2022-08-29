@@ -14,10 +14,13 @@ const initialState: AuthState = {
 
 export const authReducer = (state = initialState, action: AuthActions): AuthState => {
   switch (action.type) {
-    case AuthActionTypes.LOAD_AUTH_START: {
+    case AuthActionTypes.LOAD_SIGH_UP_START:
+    case AuthActionTypes.LOAD_LOGIN_START:
+    {
       return {
         ...state,
         loading: true,
+        error: null,
       }
     }
     case AuthActionTypes.LOAD_AUTH_SUCCESS: {

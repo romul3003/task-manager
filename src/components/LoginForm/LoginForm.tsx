@@ -8,11 +8,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { validationSchema } from './config'
 
 import { AppState } from '../../init/rootReducer'
-import { LoginState } from '../../redux/login/reducer'
-import { loadLoginStart } from '../../redux/login/actions'
+import { AuthState } from '../../redux/auth/reducer'
+import { loadLoginStart } from '../../redux/auth/actions'
 
 const LoginForm: FC = () => {
-  const { token } = useSelector<AppState, LoginState>(state => state.login)
+  const { token } = useSelector<AppState, AuthState>(state => state.auth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
