@@ -1,8 +1,7 @@
-import { LoginCredentials } from '../redux/login/types'
-import { AuthCredentials } from '../redux/auth/types'
+import { SignUpCredentials, LoginCredentials } from '../redux/login/types'
 
 export const api = {
-  async signUp(credentials: AuthCredentials) {
+  async signUp(credentials: SignUpCredentials) {
     const { confirmPassword, ...body } = credentials
 
     const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/registration`, {
@@ -13,7 +12,7 @@ export const api = {
       body: JSON.stringify(body),
     })
 
-    return response.json()
+    return response
   },
 
   async login(credentials: LoginCredentials) {

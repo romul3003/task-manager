@@ -6,12 +6,12 @@ import {
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { validationSchema } from './config'
-import { loadAuthStart } from '../../redux/auth/actions'
+import { loadSighUpStart } from '../../redux/login/actions'
 import { AppState } from '../../init/rootReducer'
-import { AuthState } from '../../redux/auth/reducer'
+import { LoginState } from '../../redux/login/reducer'
 
 const SignUpForm: FC = () => {
-  const { token } = useSelector<AppState, AuthState>(state => state.auth)
+  const { token } = useSelector<AppState, LoginState>(state => state.auth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -30,7 +30,7 @@ const SignUpForm: FC = () => {
     },
     validationSchema,
     onSubmit: (values, { resetForm }) => {
-      dispatch(loadAuthStart(values))
+      dispatch(loadSighUpStart(values))
       resetForm()
     },
   })

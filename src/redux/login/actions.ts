@@ -1,19 +1,30 @@
 import {
-  LoginActionTypes, LoginCredentials, LoadLoginStartAction, LoadLoginSuccessAction, LoadLoginFailureAction,
+  AuthActionTypes,
+  LoadLoginStartAction,
+  SignUpCredentials,
+  LoadSighUpStartAction,
+  LoginCredentials,
+  LoadAuthSuccessAction,
+  LoadAuthFailureAction,
 } from './types'
 
-export const loadLoginStart = (credentials: LoginCredentials): LoadLoginStartAction => ({
-  type: LoginActionTypes.LOAD_LOGIN_START,
+export const loadSighUpStart = (credentials: SignUpCredentials): LoadSighUpStartAction => ({
+  type: AuthActionTypes.LOAD_SIGH_UP_START,
   payload: credentials,
 })
 
-export const loadLoginSuccess = (token: string): LoadLoginSuccessAction => ({
-  type: LoginActionTypes.LOAD_LOGIN_SUCCESS,
+export const loadLoginStart = (credentials: LoginCredentials): LoadLoginStartAction => ({
+  type: AuthActionTypes.LOAD_LOGIN_START,
+  payload: credentials,
+})
+
+export const loadAuthSuccess = (token: string): LoadAuthSuccessAction => ({
+  type: AuthActionTypes.LOAD_AUTH_SUCCESS,
   payload: token,
 })
 
-export const loadLoginFailure = (error: Error): LoadLoginFailureAction => ({
-  type: LoginActionTypes.LOAD_LOGIN_FAILURE,
+export const loadAuthFailure = (error: Error): LoadAuthFailureAction => ({
+  type: AuthActionTypes.LOAD_AUTH_FAILURE,
   payload: error.message,
   error: false,
 })
