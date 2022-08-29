@@ -6,34 +6,28 @@ export type AuthCredentials = {
 }
 
 export enum AuthActionTypes {
-  FETCH_CREDENTIALS = 'FETCH_CREDENTIALS',
-  SET_TOKEN = 'SET_TOKEN',
-  SET_ERROR = 'SET_ERROR',
-  RESET_ERROR = 'RESET_ERROR',
+  LOAD_AUTH_START = 'LOAD_AUTH_START',
+  LOAD_AUTH_SUCCESS = 'LOAD_AUTH_SUCCESS',
+  LOAD_AUTH_FAILURE = 'LOAD_AUTH_FAILURE',
 }
 
-export type FetchCredentials = {
-  type: AuthActionTypes.FETCH_CREDENTIALS;
+export type LoadAuthStartAction = {
+  type: AuthActionTypes.LOAD_AUTH_START;
   payload: AuthCredentials;
 }
 
-export type SetTokenAction = {
-  type: AuthActionTypes.SET_TOKEN;
+export type LoadAuthSuccessAction = {
+  type: AuthActionTypes.LOAD_AUTH_SUCCESS;
   payload: string;
 }
 
-export type SetErrorAction = {
-  type: AuthActionTypes.SET_ERROR;
+export type LoadAuthFailureAction = {
+  type: AuthActionTypes.LOAD_AUTH_FAILURE;
   payload: string;
   error: boolean;
 }
 
-export type ResetErrorAction = {
-  type: AuthActionTypes.RESET_ERROR
-}
-
 export type AuthActions =
-  | FetchCredentials
-  | SetTokenAction
-  | SetErrorAction
-  | ResetErrorAction
+  | LoadAuthStartAction
+  | LoadAuthSuccessAction
+  | LoadAuthFailureAction

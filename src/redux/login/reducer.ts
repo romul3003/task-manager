@@ -1,26 +1,27 @@
-import { AuthActions, AuthActionTypes } from './types'
+import { LoginActions, LoginActionTypes } from './types'
 
-export type AuthState = {
+export type LoginState = {
   loading: boolean;
   token: string;
   error: string | null;
 }
 
-const initialState: AuthState = {
+const initialState: LoginState = {
   token: '',
   error: null,
   loading: false,
 }
 
-export const authReducer = (state = initialState, action: AuthActions): AuthState => {
+export const loginReducer = (state = initialState, action: LoginActions): LoginState => {
   switch (action.type) {
-    case AuthActionTypes.LOAD_AUTH_START: {
+    case LoginActionTypes.LOAD_LOGIN_START: {
       return {
         ...state,
         loading: true,
+        error: null,
       }
     }
-    case AuthActionTypes.LOAD_AUTH_SUCCESS: {
+    case LoginActionTypes.LOAD_LOGIN_SUCCESS: {
       return {
         ...state,
         token: action.payload,
@@ -28,7 +29,7 @@ export const authReducer = (state = initialState, action: AuthActions): AuthStat
         loading: false,
       }
     }
-    case AuthActionTypes.LOAD_AUTH_FAILURE: {
+    case LoginActionTypes.LOAD_LOGIN_FAILURE: {
       return {
         ...state,
         error: action.payload,

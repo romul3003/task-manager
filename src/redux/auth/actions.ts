@@ -1,23 +1,19 @@
 import {
-  AuthActionTypes, SetTokenAction, SetErrorAction, ResetErrorAction, AuthCredentials, FetchCredentials,
+  AuthActionTypes, AuthCredentials, LoadAuthStartAction, LoadAuthSuccessAction, LoadAuthFailureAction,
 } from './types'
 
-export const fetchCredentials = (credentials: AuthCredentials): FetchCredentials => ({
-  type: AuthActionTypes.FETCH_CREDENTIALS,
+export const loadAuthStart = (credentials: AuthCredentials): LoadAuthStartAction => ({
+  type: AuthActionTypes.LOAD_AUTH_START,
   payload: credentials,
 })
 
-export const setToken = (token: string): SetTokenAction => ({
-  type: AuthActionTypes.SET_TOKEN,
+export const loadAuthSuccess = (token: string): LoadAuthSuccessAction => ({
+  type: AuthActionTypes.LOAD_AUTH_SUCCESS,
   payload: token,
 })
 
-export const setError = (error: Error): SetErrorAction => ({
-  type: AuthActionTypes.SET_ERROR,
+export const loadAuthFailure = (error: Error): LoadAuthFailureAction => ({
+  type: AuthActionTypes.LOAD_AUTH_FAILURE,
   payload: error.message,
   error: false,
-})
-
-export const resetError = (): ResetErrorAction => ({
-  type: AuthActionTypes.RESET_ERROR,
 })

@@ -6,12 +6,13 @@ import {
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { validationSchema } from './config'
-import { loadAuthStart } from '../../redux/auth/actions'
-import { AppState } from '../../init/rootReducer'
-import { AuthState } from '../../redux/auth/reducer'
 
-const SignUpForm: FC = () => {
-  const { token } = useSelector<AppState, AuthState>(state => state.auth)
+import { AppState } from '../../init/rootReducer'
+import { LoginState } from '../../redux/login/reducer'
+import { loadLoginStart } from '../../redux/login/actions'
+
+const LoginForm: FC = () => {
+  const { token } = useSelector<AppState, LoginState>(state => state.login)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -23,15 +24,13 @@ const SignUpForm: FC = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: '',
       email: '',
       password: '',
-      confirmPassword: '',
     },
     validationSchema,
-    onSubmit: (values, { resetForm }) => {
-      dispatch(loadAuthStart(values))
-      resetForm()
+    onSubmit: (values) => {
+      dispatch(loadLoginStart(values))
+      // resetForm()
     },
   })
 
@@ -58,17 +57,8 @@ const SignUpForm: FC = () => {
         component="p"
         textAlign="center"
       >
-        Registration
+        Sign in
       </Typography>
-
-      <TextField
-        label="Name"
-        margin="normal"
-        fullWidth
-        error={!!(errors.name && touched.name)}
-        helperText={errors.name && touched.name && errors.name}
-        {...getFieldProps('name')}
-      />
 
       <TextField
         type="email"
@@ -90,16 +80,6 @@ const SignUpForm: FC = () => {
         {...getFieldProps('password')}
       />
 
-      <TextField
-        type="password"
-        label="Confirm password"
-        margin="normal"
-        fullWidth
-        error={!!errors.confirmPassword && touched.confirmPassword}
-        helperText={errors.confirmPassword && touched.confirmPassword && errors.confirmPassword}
-        {...getFieldProps('confirmPassword')}
-      />
-
       <Box sx={{ textAlign: 'center' }}>
         <Box sx={{ margin: '2rem 0' }}>
           <Button
@@ -113,22 +93,22 @@ const SignUpForm: FC = () => {
               },
             }}
           >
-            Submit
+            Login
           </Button>
         </Box>
 
-        <span>Go to</span>
+        <span>If you don&apos;t have an account, you may</span>
         {' '}
         <Link
-          to="/login"
+          to="/signup"
           underline="none"
           component={RouterLink}
         >
-          login
+          sign up
         </Link>
       </Box>
     </Box>
   )
 }
 
-export default SignUpForm
+export default LoginForm

@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import { authReducer } from '../redux/auth/reducer'
+import { loginReducer } from '../redux/login/reducer'
 import { routerReducer } from './reduxHistoryContext'
 
 // const initialState = {}
@@ -8,6 +9,7 @@ import { routerReducer } from './reduxHistoryContext'
 
 export const rootReducer = combineReducers({
   auth: authReducer,
+  login: loginReducer,
   router: routerReducer,
 })
 
