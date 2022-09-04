@@ -1,14 +1,13 @@
+import { FC, PropsWithChildren } from 'react'
 import { Container } from '@mui/material'
-import { FC } from 'react'
-import { Outlet } from 'react-router-dom'
 import Header from './Header'
 
-const Layout: FC = () => (
+const Layout: FC<PropsWithChildren> = ({ children }) => (
   <>
     <Header />
     <Container sx={{ marginTop: '4rem' }}>
       <main>
-        <Outlet />
+        {children}
       </main>
     </Container>
   </>

@@ -10,6 +10,19 @@ export type LoginCredentials = {
   password: string;
 }
 
+export type Profile = {
+  id: string;
+  name: string;
+  email: string;
+  created: string;
+}
+
+export type FetchedError = {
+  statusCode: number;
+  message: string;
+  error: string;
+}
+
 export type AuthCredentials = LoginCredentials | SignUpCredentials
 
 export enum AuthActionTypes {
@@ -17,6 +30,8 @@ export enum AuthActionTypes {
   LOAD_LOGIN_START = 'LOAD_LOGIN_START',
   LOAD_AUTH_SUCCESS = 'LOAD_AUTH_SUCCESS',
   LOAD_AUTH_FAILURE = 'LOAD_AUTH_SUCCESS',
+  LOAD_PROFILE = 'LOAD_PROFILE',
+  FILL_PROFILE = 'FILL_PROFILE'
 }
 
 export type LoadSighUpStartAction = {
@@ -37,7 +52,15 @@ export type LoadAuthSuccessAction = {
 export type LoadAuthFailureAction = {
   type: AuthActionTypes.LOAD_AUTH_FAILURE;
   payload: string;
-  error: boolean;
+}
+
+export type LoadProfileAction = {
+  type: AuthActionTypes.LOAD_PROFILE;
+}
+
+export type FillProfileAction = {
+  type: AuthActionTypes.FILL_PROFILE;
+  payload: Profile;
 }
 
 export type AuthActions =
@@ -45,3 +68,5 @@ export type AuthActions =
   | LoadLoginStartAction
   | LoadAuthSuccessAction
   | LoadAuthFailureAction
+  | LoadProfileAction
+  | FillProfileAction

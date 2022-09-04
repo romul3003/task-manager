@@ -6,6 +6,9 @@ import {
   LoginCredentials,
   LoadAuthSuccessAction,
   LoadAuthFailureAction,
+  Profile,
+  LoadProfileAction,
+  FillProfileAction,
 } from './types'
 
 export const loadSighUpStart = (credentials: SignUpCredentials): LoadSighUpStartAction => ({
@@ -26,5 +29,13 @@ export const loadAuthSuccess = (token: string): LoadAuthSuccessAction => ({
 export const loadAuthFailure = (error: Error): LoadAuthFailureAction => ({
   type: AuthActionTypes.LOAD_AUTH_FAILURE,
   payload: error.message,
-  error: false,
+})
+
+export const loadProfile = (): LoadProfileAction => ({
+  type: AuthActionTypes.LOAD_PROFILE,
+})
+
+export const fillProfile = (profile: Profile): FillProfileAction => ({
+  type: AuthActionTypes.FILL_PROFILE,
+  payload: profile,
 })

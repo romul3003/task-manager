@@ -1,25 +1,25 @@
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 import { useFormik } from 'formik'
 import {
   Box, TextField, Typography, Link, Button,
 } from '@mui/material'
-import { Link as RouterLink, useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { Link as RouterLink } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { validationSchema } from './config'
 import { loadSighUpStart } from '../../redux/auth/actions'
-import { AppState } from '../../init/rootReducer'
-import { AuthState } from '../../redux/auth/reducer'
+// import { AppState } from '../../init/rootReducer'
+// import { AuthState } from '../../redux/auth/reducer'
 
 const SignUpForm: FC = () => {
-  const { token } = useSelector<AppState, AuthState>(state => state.auth)
+  // const { isAuthenticated } = useSelector<AppState, AuthState>(state => state.auth)
   const dispatch = useDispatch()
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
-  useEffect(() => {
-    if (token) {
-      navigate('/task-manager', { replace: true })
-    }
-  }, [navigate, token])
+  // useEffect(() => {
+  //   if (isAuthenticated) {
+  //     navigate('/task-manager', { replace: true })
+  //   }
+  // }, [navigate, isAuthenticated])
 
   const formik = useFormik({
     initialValues: {

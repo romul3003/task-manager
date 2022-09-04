@@ -1,15 +1,21 @@
-import { AuthActions, AuthActionTypes } from './types'
+import { AuthActions, AuthActionTypes, Profile } from './types'
 
 export type AuthState = {
-  loading: boolean;
-  token: string;
+  tokenLoading: boolean;
+  token: string | null;
+  isAuthenticated: boolean;
+  profileLoading: boolean;
+  profile: Profile| null;
   error: string | null;
 }
 
 const initialState: AuthState = {
-  token: '',
+  tokenLoading: false,
+  token: null,
+  isAuthenticated: false,
+  profileLoading: false,
+  profile: null,
   error: null,
-  loading: false,
 }
 
 export const authReducer = (state = initialState, action: AuthActions): AuthState => {
@@ -19,7 +25,7 @@ export const authReducer = (state = initialState, action: AuthActions): AuthStat
     {
       return {
         ...state,
-        loading: true,
+        tokenLoading: true,
         error: null,
       }
     }
@@ -28,14 +34,31 @@ export const authReducer = (state = initialState, action: AuthActions): AuthStat
         ...state,
         token: action.payload,
         error: null,
-        loading: false,
+        tokenLoading: false,
+        isAuthenticated: true,
       }
     }
     case AuthActionTypes.LOAD_AUTH_FAILURE: {
       return {
         ...state,
         error: action.payload,
-        loading: false,
+        tokenLoading: false,
+        profileLoading: false,
+        isAuthenticated: false,
+      }
+    }
+    case AuthActionTypes.LOAD_PROFILE: {
+      return {
+        ...state,
+        profileLoading: true,
+      }
+    }
+
+    case AuthActionTypes.FILL_PROFILE: {
+      return {
+        ...state,
+        profileLoading: false,
+        profile: action.payload,
       }
     }
     default:

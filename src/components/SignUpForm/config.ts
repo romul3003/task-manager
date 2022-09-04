@@ -1,9 +1,7 @@
-/* eslint-disable no-magic-numbers */
+/* eslint-disable no-magic-numbers, no-template-curly-in-string */
 import * as Yup from 'yup'
 
-// eslint-disable-next-line no-template-curly-in-string
 const tooShortMessage = 'Min length — ${min} characters'
-// eslint-disable-next-line no-template-curly-in-string
 const tooLongMessage = 'Max length — ${max} characters'
 
 export const validationSchema = Yup.object({
@@ -22,10 +20,3 @@ export const validationSchema = Yup.object({
     .oneOf([Yup.ref('password')], 'Passwords must be equal')
     .required('Required'),
 })
-
-export type SignUpFormShape = {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}

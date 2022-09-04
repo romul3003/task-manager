@@ -108,6 +108,7 @@
             "namedComponents": ["arrow-function", "function-declaration"],
             "unnamedComponents": ["arrow-function"]
         }],
-        "react/require-default-props": [0]
+        "react/require-default-props": [0],
+        "react/jsx-no-useless-fragment": ["warn", { "allowExpressions":  true }]
     }
 }
