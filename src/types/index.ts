@@ -9,3 +9,9 @@ export type Login = {
   email: string;
   password: string;
 }
+
+export type NavigationLink = {
+  to: string,
+  label: string,
+  shouldBeAuthenticated: boolean,
+}

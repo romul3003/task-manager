@@ -6,7 +6,7 @@ import {
 import { Link as RouterLink } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { validationSchema } from './config'
-import { loadSighUpStart } from '../../redux/auth/actions'
+import { signUp } from '../../redux/auth/actions'
 // import { AppState } from '../../init/rootReducer'
 // import { AuthState } from '../../redux/auth/reducer'
 
@@ -30,7 +30,7 @@ const SignUpForm: FC = () => {
     },
     validationSchema,
     onSubmit: (values, { resetForm }) => {
-      dispatch(loadSighUpStart(values))
+      dispatch(signUp(values))
       resetForm()
     },
   })

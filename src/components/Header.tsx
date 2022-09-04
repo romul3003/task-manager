@@ -13,23 +13,26 @@ import Container from '@mui/material/Container'
 import AddTaskIcon from '@mui/icons-material/AddTask'; import Button from '@mui/material/Button'
 import MenuItem from '@mui/material/MenuItem'
 import { styled } from '@mui/material/styles'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectAuth } from '../redux/auth/selectors'
+import { clearProfile, logout } from '../redux/auth/actions'
+import { NavigationLink } from '../types'
 
 const links = [
   {
     to: 'login',
     label: 'Login',
-  },
-  {
-    to: 'signup',
-    label: 'Sign up',
+    shouldBeAuthenticated: false,
   },
   {
     to: 'task-manager',
     label: 'Task manager',
+    shouldBeAuthenticated: true,
   },
   {
     to: 'profile',
     label: 'Profile',
+    shouldBeAuthenticated: true,
   },
 ]
 
@@ -45,6 +48,8 @@ const StyledButton = setButtonActiveStyles(Button)
 const StyledMenuItem = setButtonActiveStyles(MenuItem)
 
 const Header: FC = () => {
+  const { isAuthenticated } = useSelector(selectAuth)
+  const dispatch = useDispatch()
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null)
 
   const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
@@ -53,6 +58,20 @@ const Header: FC = () => {
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null)
+  }
+
+  const logoutUser = () => {
+    localStorage.removeItem('jwt')
+    dispatch(logout())
+    dispatch(clearProfile())
+  }
+
+  const toggleFilterLogin = (link: NavigationLink) => {
+    if (link.to === 'login' && isAuthenticated === true) {
+      return false
+    }
+
+    return true
   }
 
   return (
@@ -107,16 +126,19 @@ const Header: FC = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {links.map(link => (
-                <StyledMenuItem
-                  key={link.label}
-                  to={link.to}
-                  onClick={handleCloseNavMenu}
-                  component={RouterLink}
-                >
-                  <Typography textAlign="center">{link.label}</Typography>
-                </StyledMenuItem>
-              ))}
+              {links
+                .filter(toggleFilterLogin)
+                .map(link => (
+                  <StyledMenuItem
+                    key={link.label}
+                    to={link.to}
+                    onClick={handleCloseNavMenu}
+                    component={RouterLink}
+                    disabled={link.shouldBeAuthenticated === !isAuthenticated}
+                  >
+                    <Typography textAlign="center">{link.label}</Typography>
+                  </StyledMenuItem>
+                ))}
             </Menu>
           </Box>
           <AddTaskIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -139,18 +161,30 @@ const Header: FC = () => {
             Task Manager
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {links.map(link => (
-              <StyledButton
-                key={link.label}
-                to={link.to}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-                component={RouterLink}
-              >
-                {link.label}
-              </StyledButton>
-            ))}
+            {links
+              .filter(toggleFilterLogin)
+              .map(link => (
+                <StyledButton
+                  key={link.label}
+                  to={link.to}
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                  component={RouterLink}
+                  disabled={link.shouldBeAuthenticated === !isAuthenticated}
+                >
+                  {link.label}
+                </StyledButton>
+              ))}
           </Box>
+          {isAuthenticated && (
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={logoutUser}
+            >
+              Logout
+            </Button>
+          )}
         </Toolbar>
       </Container>
     </AppBar>

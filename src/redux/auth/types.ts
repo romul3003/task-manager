@@ -26,26 +26,28 @@ export type FetchedError = {
 export type AuthCredentials = LoginCredentials | SignUpCredentials
 
 export enum AuthActionTypes {
-  LOAD_SIGH_UP_START = 'LOAD_SIGH_UP_START',
-  LOAD_LOGIN_START = 'LOAD_LOGIN_START',
-  LOAD_AUTH_SUCCESS = 'LOAD_AUTH_SUCCESS',
-  LOAD_AUTH_FAILURE = 'LOAD_AUTH_SUCCESS',
+  SIGH_UP = 'SIGH_UP',
+  LOGIN = 'LOGIN',
+  SET_TOKEN = 'SET_TOKEN',
+  LOAD_AUTH_FAILURE = 'LOAD_AUTH_FAILURE',
   LOAD_PROFILE = 'LOAD_PROFILE',
-  FILL_PROFILE = 'FILL_PROFILE'
+  FILL_PROFILE = 'FILL_PROFILE',
+  LOGOUT = 'LOGOUT',
+  CLEAR_PROFILE = 'CLEAR_PROFILE',
 }
 
-export type LoadSighUpStartAction = {
-  type: AuthActionTypes.LOAD_SIGH_UP_START;
+export type SignUpAction = {
+  type: AuthActionTypes.SIGH_UP;
   payload: SignUpCredentials;
 }
 
-export type LoadLoginStartAction = {
-  type: AuthActionTypes.LOAD_LOGIN_START;
+export type LoginAction = {
+  type: AuthActionTypes.LOGIN;
   payload: LoginCredentials;
 }
 
-export type LoadAuthSuccessAction = {
-  type: AuthActionTypes.LOAD_AUTH_SUCCESS;
+export type SetTokenAction = {
+  type: AuthActionTypes.SET_TOKEN;
   payload: string;
 }
 
@@ -63,10 +65,20 @@ export type FillProfileAction = {
   payload: Profile;
 }
 
+export type LogoutAction = {
+  type: AuthActionTypes.LOGOUT;
+}
+
+export type ClearProfileAction = {
+  type: AuthActionTypes.CLEAR_PROFILE;
+}
+
 export type AuthActions =
-  | LoadSighUpStartAction
-  | LoadLoginStartAction
-  | LoadAuthSuccessAction
+  | SignUpAction
+  | LoginAction
+  | SetTokenAction
   | LoadAuthFailureAction
   | LoadProfileAction
   | FillProfileAction
+  | LogoutAction
+  | ClearProfileAction

@@ -20,8 +20,8 @@ const initialState: AuthState = {
 
 export const authReducer = (state = initialState, action: AuthActions): AuthState => {
   switch (action.type) {
-    case AuthActionTypes.LOAD_SIGH_UP_START:
-    case AuthActionTypes.LOAD_LOGIN_START:
+    case AuthActionTypes.SIGH_UP:
+    case AuthActionTypes.LOGIN:
     {
       return {
         ...state,
@@ -29,7 +29,7 @@ export const authReducer = (state = initialState, action: AuthActions): AuthStat
         error: null,
       }
     }
-    case AuthActionTypes.LOAD_AUTH_SUCCESS: {
+    case AuthActionTypes.SET_TOKEN: {
       return {
         ...state,
         token: action.payload,
@@ -59,6 +59,18 @@ export const authReducer = (state = initialState, action: AuthActions): AuthStat
         ...state,
         profileLoading: false,
         profile: action.payload,
+      }
+    }
+    case AuthActionTypes.LOGOUT: {
+      return {
+        ...state,
+        isAuthenticated: false,
+      }
+    }
+    case AuthActionTypes.CLEAR_PROFILE: {
+      return {
+        ...state,
+        profile: null,
       }
     }
     default:

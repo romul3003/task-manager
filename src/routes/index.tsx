@@ -21,14 +21,6 @@ const RoutesComponent: FC = () => (
       )}
     />
     <Route
-      path={ROUTES.LOGIN}
-      element={<LoginPage />}
-    />
-    <Route
-      path={ROUTES.SIGN_UP}
-      element={<SignUpPage />}
-    />
-    <Route
       path={ROUTES.TASK_MANAGER}
       element={(
         <RequireAuth>
@@ -43,6 +35,14 @@ const RoutesComponent: FC = () => (
           <ProfilePage />
         </RequireAuth>
       )}
+    />
+    <Route
+      path={ROUTES.LOGIN}
+      element={<LoginPage />}
+    />
+    <Route
+      path={ROUTES.SIGN_UP}
+      element={<SignUpPage />}
     />
     <Route
       path="*"

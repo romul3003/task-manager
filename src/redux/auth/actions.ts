@@ -1,28 +1,30 @@
 import {
   AuthActionTypes,
-  LoadLoginStartAction,
+  LoginAction,
   SignUpCredentials,
-  LoadSighUpStartAction,
+  SignUpAction,
   LoginCredentials,
-  LoadAuthSuccessAction,
+  SetTokenAction,
   LoadAuthFailureAction,
   Profile,
   LoadProfileAction,
   FillProfileAction,
+  LogoutAction,
+  ClearProfileAction,
 } from './types'
 
-export const loadSighUpStart = (credentials: SignUpCredentials): LoadSighUpStartAction => ({
-  type: AuthActionTypes.LOAD_SIGH_UP_START,
+export const signUp = (credentials: SignUpCredentials): SignUpAction => ({
+  type: AuthActionTypes.SIGH_UP,
   payload: credentials,
 })
 
-export const loadLoginStart = (credentials: LoginCredentials): LoadLoginStartAction => ({
-  type: AuthActionTypes.LOAD_LOGIN_START,
+export const login = (credentials: LoginCredentials): LoginAction => ({
+  type: AuthActionTypes.LOGIN,
   payload: credentials,
 })
 
-export const loadAuthSuccess = (token: string): LoadAuthSuccessAction => ({
-  type: AuthActionTypes.LOAD_AUTH_SUCCESS,
+export const setToken = (token: string): SetTokenAction => ({
+  type: AuthActionTypes.SET_TOKEN,
   payload: token,
 })
 
@@ -38,4 +40,12 @@ export const loadProfile = (): LoadProfileAction => ({
 export const fillProfile = (profile: Profile): FillProfileAction => ({
   type: AuthActionTypes.FILL_PROFILE,
   payload: profile,
+})
+
+export const logout = (): LogoutAction => ({
+  type: AuthActionTypes.LOGOUT,
+})
+
+export const clearProfile = (): ClearProfileAction => ({
+  type: AuthActionTypes.CLEAR_PROFILE,
 })

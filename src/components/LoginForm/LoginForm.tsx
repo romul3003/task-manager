@@ -7,20 +7,10 @@ import { Link as RouterLink } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { validationSchema } from './config'
 
-// import { AppState } from '../../init/rootReducer'
-// import { AuthState } from '../../redux/auth/reducer'
-import { loadLoginStart } from '../../redux/auth/actions'
+import { login } from '../../redux/auth/actions'
 
 const LoginForm: FC = () => {
-  // const { isAuthenticated } = useSelector<AppState, AuthState>(state => state.auth)
   const dispatch = useDispatch()
-  // const navigate = useNavigate()
-
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     navigate('/task-manager', { replace: true })
-  //   }
-  // }, [navigate, isAuthenticated])
 
   const formik = useFormik({
     initialValues: {
@@ -28,9 +18,9 @@ const LoginForm: FC = () => {
       password: '',
     },
     validationSchema,
-    onSubmit: (values) => {
-      dispatch(loadLoginStart(values))
-      // resetForm()
+    onSubmit: (values, { resetForm }) => {
+      dispatch(login(values))
+      resetForm()
     },
   })
 

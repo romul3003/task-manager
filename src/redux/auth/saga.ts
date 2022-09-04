@@ -5,11 +5,11 @@ import {
 
 import { selectAuth } from './selectors'
 import {
-  loadAuthFailure, loadAuthSuccess, fillProfile, loadProfile,
+  loadAuthFailure, setToken, fillProfile, loadProfile,
 } from './actions'
 import { api } from '../../api/api'
 import {
-  AuthActionTypes, FetchedError, LoadLoginStartAction, LoadSighUpStartAction, Profile,
+  AuthActionTypes, FetchedError, LoginAction, SignUpAction, Profile,
 } from './types'
 import { AuthState } from './reducer'
 
@@ -34,16 +34,15 @@ function* loadProfileSaga(): SagaIterator {
   }
 }
 
-function* setSighUpSaga({ payload }: LoadSighUpStartAction): SagaIterator {
+function* setSighUpSaga({ payload }: SignUpAction): SagaIterator {
   try {
     const response = yield call(api.signUp, payload)
 
     if (response?.ok) {
       const { data: token }: {data: string} = yield apply(response, response.json, [])
 
-      yield put(loadAuthSuccess(token))
+      yield put(setToken(token))
       localStorage.setItem('jwt', token)
-      // yield call(fillProfileSaga)
     } else {
       throw new Error(`Status: ${response?.status}. Request error. Please, repeat after few minutes or contact the administrator`)
     }
@@ -52,15 +51,14 @@ function* setSighUpSaga({ payload }: LoadSighUpStartAction): SagaIterator {
   }
 }
 
-function* setLoginSaga({ payload }: LoadLoginStartAction): SagaIterator {
+function* setLoginSaga({ payload }: LoginAction): SagaIterator {
   try {
     const response = yield call(api.login, payload)
 
     if (response?.ok) {
       const { data: token }: {data: string} = yield apply(response, response.json, [])
-      yield put(loadAuthSuccess(token))
+      yield put(setToken(token))
       localStorage.setItem('jwt', token)
-      // yield call(fillProfileSaga)
       yield put(loadProfile())
     // eslint-disable-next-line no-magic-numbers
     } else if (response?.status === 401) {
@@ -75,6 +73,6 @@ function* setLoginSaga({ payload }: LoadLoginStartAction): SagaIterator {
 
 export function* authSaga(): SagaIterator {
   yield takeEvery(AuthActionTypes.LOAD_PROFILE, loadProfileSaga)
-  yield takeEvery(AuthActionTypes.LOAD_SIGH_UP_START, setSighUpSaga)
-  yield takeEvery(AuthActionTypes.LOAD_LOGIN_START, setLoginSaga)
+  yield takeEvery(AuthActionTypes.SIGH_UP, setSighUpSaga)
+  yield takeEvery(AuthActionTypes.LOGIN, setLoginSaga)
 }
