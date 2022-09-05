@@ -9,16 +9,16 @@ const RequireAuth: FC<PropsWithChildren> = ({ children }) => {
   const location = useLocation()
   const { isAuthenticated } = useSelector(selectAuth)
 
-  if (!isAuthenticated) {
-    return (
-      <Navigate
-        to={ROUTES.LOGIN}
-        state={{ from: location }}
-      />
-    )
+  if (isAuthenticated) {
+    return <>{children}</>
   }
 
-  return <>{children}</>
+  return (
+    <Navigate
+      to={ROUTES.LOGIN}
+      state={{ from: location }}
+    />
+  )
 }
 
 export default RequireAuth

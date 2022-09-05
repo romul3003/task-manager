@@ -4,13 +4,14 @@ import { useNavigate } from 'react-router-dom'
 import Layout from './components/Layout'
 import { setToken, loadProfile } from './redux/auth/actions'
 import { selectAuth } from './redux/auth/selectors'
+import { loadTasks } from './redux/tasks/actions'
 import RoutesComponent from './routes'
 import { ROUTES } from './routes/routes'
 
 const App: FC = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { profile } = useSelector(selectAuth)
+  const { profile, token } = useSelector(selectAuth)
 
   useEffect(() => {
     const savedToken = localStorage.getItem('jwt')
@@ -26,6 +27,12 @@ const App: FC = () => {
       navigate(ROUTES.TASK_MANAGER)
     }
   }, [profile]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (token) {
+      dispatch(loadTasks())
+    }
+  }, [token, dispatch])
 
   return (
     <Layout>

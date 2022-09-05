@@ -1,6 +1,6 @@
 import { Login, SignUp } from '../types'
 
-export const api = {
+export const auth = {
   signUp(credentials: SignUp) {
     const { confirmPassword, ...body } = credentials
 
@@ -24,7 +24,7 @@ export const api = {
     })
   },
 
-  getProfile(token: string) {
+  fetchProfile(token: string) {
     return fetch(`${process.env.REACT_APP_API_URL}/auth/profile`, {
       method: 'GET',
       headers: {

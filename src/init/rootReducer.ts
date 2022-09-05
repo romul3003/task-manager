@@ -1,13 +1,11 @@
 import { combineReducers } from 'redux'
+import { taskReducer } from '../redux/tasks/reducer'
 import { authReducer } from '../redux/auth/reducer'
 import { routerReducer } from './reduxHistoryContext'
 
-// const initialState = {}
-
-// export const appReducer = (state = initialState) => state
-
 export const rootReducer = combineReducers({
   auth: authReducer,
+  task: taskReducer,
   router: routerReducer,
 })
 

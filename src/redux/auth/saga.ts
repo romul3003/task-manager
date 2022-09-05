@@ -7,7 +7,7 @@ import { selectAuth } from './selectors'
 import {
   loadAuthFailure, setToken, fillProfile, loadProfile,
 } from './actions'
-import { api } from '../../api/api'
+import { api } from '../../api'
 import {
   AuthActionTypes, FetchedError, LoginAction, SignUpAction, Profile,
 } from './types'
@@ -18,7 +18,7 @@ function* loadProfileSaga(): SagaIterator {
     const { token }: AuthState = yield select(selectAuth)
 
     if (token) {
-      const response = yield call(api.getProfile, token)
+      const response = yield call(api.auth.fetchProfile, token)
 
       if (response?.ok) {
         const profile: Profile = yield apply(response, response.json, [])
@@ -36,13 +36,14 @@ function* loadProfileSaga(): SagaIterator {
 
 function* setSighUpSaga({ payload }: SignUpAction): SagaIterator {
   try {
-    const response = yield call(api.signUp, payload)
+    const response = yield call(api.auth.signUp, payload)
 
     if (response?.ok) {
       const { data: token }: {data: string} = yield apply(response, response.json, [])
 
       yield put(setToken(token))
       localStorage.setItem('jwt', token)
+      yield put(loadProfile())
     } else {
       throw new Error(`Status: ${response?.status}. Request error. Please, repeat after few minutes or contact the administrator`)
     }
@@ -53,7 +54,7 @@ function* setSighUpSaga({ payload }: SignUpAction): SagaIterator {
 
 function* setLoginSaga({ payload }: LoginAction): SagaIterator {
   try {
-    const response = yield call(api.login, payload)
+    const response = yield call(api.auth.login, payload)
 
     if (response?.ok) {
       const { data: token }: {data: string} = yield apply(response, response.json, [])

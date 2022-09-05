@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { selectAuth } from '../redux/auth/selectors'
 import { clearProfile, logout } from '../redux/auth/actions'
 import { NavigationLink } from '../types'
+import { clearTasks } from '../redux/tasks/actions'
 
 const links = [
   {
@@ -61,9 +62,10 @@ const Header: FC = () => {
   }
 
   const logoutUser = () => {
-    localStorage.removeItem('jwt')
     dispatch(logout())
     dispatch(clearProfile())
+    dispatch(clearTasks())
+    localStorage.removeItem('jwt')
   }
 
   const toggleFilterLogin = (link: NavigationLink) => {
