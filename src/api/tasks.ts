@@ -9,4 +9,15 @@ export const tasks = {
       },
     })
   },
+
+  fetchTags() {
+    const savedToken = localStorage.getItem('jwt')
+
+    return fetch(`${process.env.REACT_APP_API_URL}/tags`, {
+      method: 'GET',
+      headers: {
+        authorization: `Bearer ${savedToken}`,
+      },
+    })
+  },
 }

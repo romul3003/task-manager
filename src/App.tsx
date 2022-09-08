@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import Layout from './components/Layout'
 import { setToken, loadProfile } from './redux/auth/actions'
 import { selectAuth } from './redux/auth/selectors'
-import { loadTasks } from './redux/tasks/actions'
+import { loadTags, loadTasks } from './redux/tasks/actions'
 import RoutesComponent from './routes'
 import { ROUTES } from './routes/routes'
 
@@ -31,6 +31,7 @@ const App: FC = () => {
   useEffect(() => {
     if (token) {
       dispatch(loadTasks())
+      dispatch(loadTags())
     }
   }, [token, dispatch])
 

@@ -4,14 +4,20 @@ import {
 } from '@mui/material'
 import CheckBoxOutlineBlankRoundedIcon from '@mui/icons-material/CheckBoxOutlineBlankRounded'
 import CheckBoxRoundedIcon from '@mui/icons-material/CheckBoxRounded'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { selectTask } from '../redux/tasks/selectors'
+import { setCurrentTaskId } from '../redux/tasks/actions'
 
 const TasksList: FC = () => {
-  const { isLoading, tasks } = useSelector(selectTask)
+  const { isLoadingTasks, tasks } = useSelector(selectTask)
+  const dispatch = useDispatch()
 
-  if (isLoading) {
+  if (isLoadingTasks) {
     return <CircularProgress />
+  }
+
+  const onListItemClick = (id: string) => {
+    dispatch(setCurrentTaskId(id))
   }
 
   return (
@@ -28,11 +34,13 @@ const TasksList: FC = () => {
             <List>
               {tasks?.map(task => (
                 <li key={task.id}>
-                  <ListItemButton sx={{
-                    display: 'grid',
-                    gridTemplateColumns: { xs: '1fr', md: '2fr 1fr' },
-                    gap: '1rem',
-                  }}
+                  <ListItemButton
+                    sx={{
+                      display: 'grid',
+                      gridTemplateColumns: { xs: '1fr', md: '2fr 1fr' },
+                      gap: '1rem',
+                    }}
+                    onClick={() => onListItemClick(task.id)}
                   >
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
                       {task.completed ? <CheckBoxRoundedIcon color="primary" /> : <CheckBoxOutlineBlankRoundedIcon />}

@@ -3,8 +3,8 @@ import {
   takeEvery, put, call, apply,
 } from 'redux-saga/effects'
 import { api } from '../../api'
-import { fillTasks, loadTasksFailure } from './actions'
-import { Task, TaskActionTypes } from './types'
+import { fillTags, fillTasks, loadTasksFailure } from './actions'
+import { Tag, Task, TaskActionTypes } from './types'
 
 function* loadTasksSaga(): SagaIterator {
   try {
@@ -20,6 +20,15 @@ function* loadTasksSaga(): SagaIterator {
   }
 }
 
+function* loadTagsSaga(): SagaIterator {
+  const response = yield call(api.tasks.fetchTags)
+  if (response?.ok) {
+    const { data }: {data: Tag[]} = yield apply(response, response.json, [])
+    yield put(fillTags(data))
+  }
+}
+
 export function* taskSaga(): SagaIterator {
   yield takeEvery(TaskActionTypes.LOAD_TASKS, loadTasksSaga)
+  yield takeEvery(TaskActionTypes.LOAD_TAGS, loadTagsSaga)
 }
