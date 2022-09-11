@@ -1,18 +1,22 @@
 import {
   Task,
   Tag,
-  LoadTasksAction,
+  LoadTasksAsyncAction,
   FillTasksAction,
   TaskActionTypes,
   LoadTasksFailureAction,
   ClearTasksAction,
   SetCurrentTaskIdAction,
-  LoadTagsAction,
+  LoadTagsAsyncAction,
   FillTagsAction,
+  SetSelectedTagIdAction,
+  CreateTaskAsyncAction,
+  CreatedTask,
+  CreateTaskAction,
 } from './types'
 
-export const loadTasks = (): LoadTasksAction => ({
-  type: TaskActionTypes.LOAD_TASKS,
+export const loadTasksAsync = (): LoadTasksAsyncAction => ({
+  type: TaskActionTypes.LOAD_TASKS_ASYNC,
 })
 
 export const fillTasks = (tasks: Task[]): FillTasksAction => ({
@@ -34,11 +38,26 @@ export const setCurrentTaskId = (id: string): SetCurrentTaskIdAction => ({
   payload: id,
 })
 
-export const loadTags = (): LoadTagsAction => ({
-  type: TaskActionTypes.LOAD_TAGS,
+export const loadTagsAsync = (): LoadTagsAsyncAction => ({
+  type: TaskActionTypes.LOAD_TAGS_ASYNC,
 })
 
 export const fillTags = (tags: Tag[]): FillTagsAction => ({
   type: TaskActionTypes.FILL_TAGS,
   payload: tags,
+})
+
+export const setSelectedTagId = (tagId: string): SetSelectedTagIdAction => ({
+  type: TaskActionTypes.SET_SELECTED_TAG_ID,
+  payload: tagId,
+})
+
+export const createTaskAsync = (createdTask: CreatedTask): CreateTaskAsyncAction => ({
+  type: TaskActionTypes.CREATE_TASK_ASYNC,
+  payload: createdTask,
+})
+
+export const createTask = (newTask: Task): CreateTaskAction => ({
+  type: TaskActionTypes.CREATE_TASK,
+  payload: newTask,
 })

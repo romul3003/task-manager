@@ -9,10 +9,10 @@ import { selectTask } from '../redux/tasks/selectors'
 import { setCurrentTaskId } from '../redux/tasks/actions'
 
 const TasksList: FC = () => {
-  const { isLoadingTasks, tasks } = useSelector(selectTask)
+  const { isLoading, tasks } = useSelector(selectTask)
   const dispatch = useDispatch()
 
-  if (isLoadingTasks) {
+  if (isLoading) {
     return <CircularProgress />
   }
 
@@ -59,10 +59,10 @@ const TasksList: FC = () => {
                         alignItems: 'center',
                         columnGap: '.5rem',
                         margin: '0',
-                        pl: { xs: '0.75rem', md: '0' },
+                        pl: { xs: '0.2rem', md: '0' },
                       }}
                     >
-                      <span>{new Intl.DateTimeFormat('uk-UA').format(new Date(task.deadline))}</span>
+                      <span>{new Intl.DateTimeFormat('uk-UA').format(new Date(task?.deadline))}</span>
                       <Chip
                         label={task.tag.name}
                         sx={{ backgroundColor: task.tag.bg, color: task.tag.color }}

@@ -7,19 +7,9 @@ import { Link as RouterLink } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { validationSchema } from './config'
 import { signUp } from '../../redux/auth/actions'
-// import { AppState } from '../../init/rootReducer'
-// import { AuthState } from '../../redux/auth/reducer'
 
 const SignUpForm: FC = () => {
-  // const { isAuthenticated } = useSelector<AppState, AuthState>(state => state.auth)
   const dispatch = useDispatch()
-  // const navigate = useNavigate()
-
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     navigate('/task-manager', { replace: true })
-  //   }
-  // }, [navigate, isAuthenticated])
 
   const formik = useFormik({
     initialValues: {

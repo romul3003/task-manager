@@ -1,0 +1,12 @@
+.customDatePicker {
+  position: absolute;
+}
+
+.customDatePicker > div:first-child {
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+}
+
+div.customPopper {
+  z-index: 10;
+}

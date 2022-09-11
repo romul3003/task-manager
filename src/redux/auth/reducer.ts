@@ -1,4 +1,5 @@
-import { AuthActions, AuthActionTypes, Profile } from './types'
+import { Profile } from '../../types'
+import { AuthActions, AuthActionTypes } from './types'
 
 export type AuthState = {
   tokenLoading: boolean;

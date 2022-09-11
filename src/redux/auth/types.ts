@@ -1,29 +1,4 @@
-export type SignUpCredentials = {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
-
-export type LoginCredentials = {
-  email: string;
-  password: string;
-}
-
-export type Profile = {
-  id: string;
-  name: string;
-  email: string;
-  created: string;
-}
-
-export type FetchedError = {
-  statusCode: number;
-  message: string;
-  error: string;
-}
-
-export type AuthCredentials = LoginCredentials | SignUpCredentials
+import { LoginCredentials, Profile, SignUpCredentials } from '../../types'
 
 export enum AuthActionTypes {
   SIGH_UP = 'SIGH_UP',

@@ -9,9 +9,10 @@ import {
 } from './actions'
 import { api } from '../../api'
 import {
-  AuthActionTypes, FetchedError, LoginAction, SignUpAction, Profile,
+  AuthActionTypes, LoginAction, SignUpAction,
 } from './types'
 import { AuthState } from './reducer'
+import { FetchedError, Profile } from '../../types'
 
 function* loadProfileSaga(): SagaIterator {
   try {

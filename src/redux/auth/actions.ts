@@ -1,12 +1,10 @@
+import { LoginCredentials, Profile, SignUpCredentials } from '../../types'
 import {
   AuthActionTypes,
   LoginAction,
-  SignUpCredentials,
   SignUpAction,
-  LoginCredentials,
   SetTokenAction,
   LoadAuthFailureAction,
-  Profile,
   LoadProfileAction,
   FillProfileAction,
   LogoutAction,

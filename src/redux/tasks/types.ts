@@ -14,18 +14,29 @@ export type Task = {
   tag: Tag;
 }
 
+export type CreatedTask = {
+  completed: boolean;
+  title: string;
+  description: string;
+  deadline: Date;
+  tag: string;
+}
+
 export enum TaskActionTypes {
-  LOAD_TASKS = 'LOAD_TASKS',
+  LOAD_TASKS_ASYNC = 'LOAD_TASKS_ASYNC',
   FILL_TASKS = 'FILL_TASKS',
   LOAD_TASKS_FAILURE = 'LOAD_TASKS_FAILURE',
   CLEAR_TASKS = 'CLEAR_TASKS',
   SET_CURRENT_TASK_ID = 'SET_CURRENT_TASK_ID',
-  LOAD_TAGS = 'LOAD_TAGS',
+  LOAD_TAGS_ASYNC = 'LOAD_TAGS_ASYNC',
   FILL_TAGS = 'FILL_TAGS',
+  SET_SELECTED_TAG_ID = 'SET_SELECTED_TAG_ID',
+  CREATE_TASK_ASYNC = 'CREATE_TASK_ASYNC',
+  CREATE_TASK = 'CREATE_TASK',
 }
 
-export type LoadTasksAction = {
-  type: TaskActionTypes.LOAD_TASKS;
+export type LoadTasksAsyncAction = {
+  type: TaskActionTypes.LOAD_TASKS_ASYNC;
 }
 
 export type FillTasksAction = {
@@ -47,8 +58,8 @@ export type SetCurrentTaskIdAction = {
   payload: string;
 }
 
-export type LoadTagsAction = {
-  type: TaskActionTypes.LOAD_TAGS;
+export type LoadTagsAsyncAction = {
+  type: TaskActionTypes.LOAD_TAGS_ASYNC;
 }
 
 export type FillTagsAction = {
@@ -56,11 +67,29 @@ export type FillTagsAction = {
   payload: Tag[];
 }
 
+export type SetSelectedTagIdAction = {
+  type: TaskActionTypes.SET_SELECTED_TAG_ID;
+  payload: string;
+}
+
+export type CreateTaskAsyncAction = {
+  type: TaskActionTypes.CREATE_TASK_ASYNC;
+  payload: CreatedTask;
+}
+
+export type CreateTaskAction = {
+  type: TaskActionTypes.CREATE_TASK;
+  payload: Task;
+}
+
 export type TasksActions =
-  | LoadTasksAction
+  | LoadTasksAsyncAction
   | FillTasksAction
   | LoadTasksFailureAction
   | ClearTasksAction
   | SetCurrentTaskIdAction
-  | LoadTagsAction
+  | LoadTagsAsyncAction
   | FillTagsAction
+  | SetSelectedTagIdAction
+  | CreateTaskAsyncAction
+  | CreateTaskAction

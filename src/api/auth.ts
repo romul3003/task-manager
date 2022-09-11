@@ -1,7 +1,7 @@
-import { Login, SignUp } from '../types'
+import { LoginCredentials, SignUpCredentials } from '../types'
 
 export const auth = {
-  signUp(credentials: SignUp) {
+  signUp(credentials: SignUpCredentials) {
     const { confirmPassword, ...body } = credentials
 
     return fetch(`${process.env.REACT_APP_API_URL}/auth/registration`, {
@@ -13,7 +13,7 @@ export const auth = {
     })
   },
 
-  login(credentials: Login) {
+  login(credentials: LoginCredentials) {
     const { email, password } = credentials
 
     return fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {

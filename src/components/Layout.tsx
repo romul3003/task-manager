@@ -5,11 +5,11 @@ import Header from './Header'
 const Layout: FC<PropsWithChildren> = ({ children }) => (
   <>
     <Header />
-    <Container sx={{ marginTop: '4rem' }}>
-      <main>
+    <main>
+      <Container sx={{ marginTop: '4rem' }}>
         {children}
-      </main>
-    </Container>
+      </Container>
+    </main>
   </>
 )
 

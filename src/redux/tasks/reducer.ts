@@ -3,43 +3,43 @@ import {
 } from './types'
 
 export type TaskState = {
-  isLoadingTasks: boolean;
+  isLoading: boolean;
   tasks: Task[] | null;
   error: string | null;
   currentTaskId: string | null;
-  isLoadingTags: boolean;
   tags: Tag[] | null;
+  selectedTagId: string | null;
 }
 
 const initialState: TaskState = {
-  isLoadingTasks: false,
+  isLoading: false,
   tasks: null,
   error: null,
   currentTaskId: null,
-  isLoadingTags: false,
   tags: null,
+  selectedTagId: null,
 }
 
 export const taskReducer = (state = initialState, action: TasksActions): TaskState => {
   switch (action.type) {
-    case TaskActionTypes.LOAD_TASKS:
+    case TaskActionTypes.LOAD_TASKS_ASYNC:
       return {
         ...state,
-        isLoadingTasks: true,
+        isLoading: true,
         error: null,
       }
     case TaskActionTypes.FILL_TASKS:
       return {
         ...state,
         tasks: action.payload,
-        isLoadingTasks: false,
+        isLoading: false,
         error: null,
       }
 
     case TaskActionTypes.LOAD_TASKS_FAILURE:
       return {
         ...state,
-        isLoadingTasks: false,
+        isLoading: false,
         error: action.payload,
       }
     case TaskActionTypes.CLEAR_TASKS:
@@ -51,17 +51,21 @@ export const taskReducer = (state = initialState, action: TasksActions): TaskSta
         ...state,
         currentTaskId: action.payload,
       }
-    case TaskActionTypes.LOAD_TAGS:
-      return {
-        ...state,
-        isLoadingTags: true,
-      }
     case TaskActionTypes.FILL_TAGS:
       return {
         ...state,
         tags: action.payload,
-        isLoadingTags: false,
         error: null,
+      }
+    case TaskActionTypes.SET_SELECTED_TAG_ID:
+      return {
+        ...state,
+        selectedTagId: action.payload,
+      }
+    case TaskActionTypes.CREATE_TASK:
+      return {
+        ...state,
+        tasks: Array.isArray(state.tasks) ? [action.payload, ...state.tasks] : [action.payload],
       }
     default:
       return state
