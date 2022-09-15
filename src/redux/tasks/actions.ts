@@ -1,3 +1,4 @@
+import { FormStates } from '../../types'
 import {
   Task,
   Tag,
@@ -13,6 +14,10 @@ import {
   CreateTaskAsyncAction,
   CreatedTask,
   CreateTaskAction,
+  DeleteTaskAction,
+  DeleteTaskAsyncAction,
+  UpdateTaskAsyncAction,
+  EditTaskAction,
 } from './types'
 
 export const loadTasksAsync = (): LoadTasksAsyncAction => ({
@@ -60,4 +65,31 @@ export const createTaskAsync = (createdTask: CreatedTask): CreateTaskAsyncAction
 export const createTask = (newTask: Task): CreateTaskAction => ({
   type: TaskActionTypes.CREATE_TASK,
   payload: newTask,
+})
+
+export const deleteTaskAsync = (taskId: string): DeleteTaskAsyncAction => ({
+  type: TaskActionTypes.DELETE_TASK_ASYNC,
+  payload: taskId,
+})
+
+export const deleteTask = (taskId: string): DeleteTaskAction => ({
+  type: TaskActionTypes.DELETE_TASK,
+  payload: taskId,
+})
+
+export const updateTaskAsync = (currentTaskId: string, editedTask: CreatedTask): UpdateTaskAsyncAction => ({
+  type: TaskActionTypes.UPDATE_TASK_ASYNC,
+  payload: {
+    currentTaskId, editedTask,
+  },
+})
+
+export const editTask = (editedTask: Task): EditTaskAction => ({
+  type: TaskActionTypes.EDIT_TASK,
+  payload: editedTask,
+})
+
+export const setTaskManagerState = (nextState: FormStates) => ({
+  type: TaskActionTypes.SET_TASK_MANAGER_STATE,
+  payload: nextState,
 })

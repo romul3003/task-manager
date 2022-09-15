@@ -1,3 +1,5 @@
+import { FormStates } from '../../types'
+
 export type Tag = {
     id: string;
     name: string;
@@ -14,10 +16,7 @@ export type Task = {
   tag: Tag;
 }
 
-export type CreatedTask = {
-  completed: boolean;
-  title: string;
-  description: string;
+export type CreatedTask = Pick<Task, 'completed' | 'title' | 'description'> & {
   deadline: Date;
   tag: string;
 }
@@ -33,6 +32,11 @@ export enum TaskActionTypes {
   SET_SELECTED_TAG_ID = 'SET_SELECTED_TAG_ID',
   CREATE_TASK_ASYNC = 'CREATE_TASK_ASYNC',
   CREATE_TASK = 'CREATE_TASK',
+  UPDATE_TASK_ASYNC = 'UPDATE_TASK_ASYNC',
+  EDIT_TASK = 'EDIT_TASK',
+  DELETE_TASK_ASYNC = 'DELETE_TASK_ASYNC',
+  DELETE_TASK = 'DELETE_TASK',
+  SET_TASK_MANAGER_STATE = 'SET_TASK_MANAGER_STATE',
 }
 
 export type LoadTasksAsyncAction = {
@@ -82,6 +86,34 @@ export type CreateTaskAction = {
   payload: Task;
 }
 
+export type DeleteTaskAsyncAction = {
+  type: TaskActionTypes.DELETE_TASK_ASYNC;
+  payload: string;
+}
+
+export type DeleteTaskAction = {
+  type: TaskActionTypes.DELETE_TASK;
+  payload: string;
+}
+
+export type UpdateTaskAsyncAction = {
+  type: TaskActionTypes.UPDATE_TASK_ASYNC,
+  payload: {
+    currentTaskId: string;
+    editedTask: CreatedTask;
+  }
+}
+
+export type EditTaskAction = {
+  type: TaskActionTypes.EDIT_TASK;
+  payload: Task;
+}
+
+export type SetTaskManagerStateAction = {
+  type: TaskActionTypes.SET_TASK_MANAGER_STATE;
+  payload: FormStates;
+}
+
 export type TasksActions =
   | LoadTasksAsyncAction
   | FillTasksAction
@@ -93,3 +125,8 @@ export type TasksActions =
   | SetSelectedTagIdAction
   | CreateTaskAsyncAction
   | CreateTaskAction
+  | UpdateTaskAsyncAction
+  | EditTaskAction
+  | DeleteTaskAsyncAction
+  | DeleteTaskAction
+  | SetTaskManagerStateAction

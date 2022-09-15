@@ -1,21 +1,28 @@
-import { FC } from 'react'
+import { FC, useCallback } from 'react'
 import { useFormik } from 'formik'
 // import DatePicker from 'react-datepicker'
 
 import {
-  Box, Button, TextField, Stack, Chip,
+  Box, Button, TextField, Stack, Chip, IconButton,
 } from '@mui/material'
+import ClearIcon from '@mui/icons-material/Clear'
+import DoneIcon from '@mui/icons-material/Done'
 import { useSelector, useDispatch } from 'react-redux'
 import CustomDatePicker from '../CustomDatePicker/CustomDatePicker'
 import { selectTask } from '../../redux/tasks/selectors'
-import { createTaskAsync, setSelectedTagId } from '../../redux/tasks/actions'
-// import { useDispatch } from 'react-redux'
+import {
+  createTaskAsync, deleteTaskAsync, setSelectedTagId, updateTaskAsync,
+} from '../../redux/tasks/actions'
 
 const TaskForm: FC = () => {
   const dispatch = useDispatch()
-  const { tags, selectedTagId } = useSelector(selectTask)
+  const {
+    tags, selectedTagId, currentTaskId, tasks,
+  } = useSelector(selectTask)
 
-  const { handleSubmit, getFieldProps, setFieldValue } = useFormik({
+  const {
+    handleSubmit, getFieldProps, setFieldValue, resetForm,
+  } = useFormik({
     initialValues: {
       completed: false,
       title: '',
@@ -24,14 +31,39 @@ const TaskForm: FC = () => {
       tag: '',
     },
     onSubmit: (task) => {
+      // console.log(JSON.stringify(task, null, 2))
+      // console.log(task)
       dispatch(createTaskAsync(task))
     },
   })
 
-  const handleTagClick = (tagId: string) => {
+  const handleTagClick = useCallback((tagId: string) => {
     dispatch(setSelectedTagId(tagId))
     setFieldValue('tag', tagId)
-  }
+  }, [dispatch, setFieldValue])
+
+  const completeTask = useCallback(() => {
+    if (Array.isArray(tasks)) {
+      const task = tasks.find(item => item.id === currentTaskId)
+
+      if (currentTaskId && task) {
+        dispatch(updateTaskAsync(currentTaskId, {
+          completed: true,
+          title: task.title,
+          description: task.description,
+          deadline: new Date(task.deadline),
+          tag: task.tag.id,
+        }))
+      }
+    }
+  }, [currentTaskId, dispatch, tasks])
+
+  const removeTask = useCallback(() => {
+    if (currentTaskId) {
+      dispatch(deleteTaskAsync(currentTaskId))
+      resetForm()
+    }
+  }, [currentTaskId, dispatch, resetForm])
 
   return (
     <Box
@@ -45,6 +77,21 @@ const TaskForm: FC = () => {
         backgroundColor: '#fff',
       }}
     >
+      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Button
+          startIcon={<DoneIcon />}
+          onClick={completeTask}
+        >
+          Complete
+        </Button>
+        <IconButton
+          aria-label="delete"
+          color="error"
+          onClick={removeTask}
+        >
+          <ClearIcon />
+        </IconButton>
+      </Box>
       <TextField
         label="Title"
         fullWidth
@@ -83,7 +130,7 @@ const TaskForm: FC = () => {
       {tags?.length && (
         <Stack
           direction="row"
-          sx={{ mt: '1rem' }}
+          sx={{ mt: '1rem', gap: '.5rem', flexWrap: 'wrap' }}
         >
           {tags.map(tag => (
             <Chip

@@ -30,3 +30,9 @@ export type NavigationLink = {
   label: string,
   shouldBeAuthenticated: boolean,
 }
+
+export enum FormStates {
+  CREATE = 'CREATE',
+  UPDATE = 'UPDATE',
+  CLOSED = 'CLOSED',
+}

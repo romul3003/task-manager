@@ -1,3 +1,4 @@
+import { FormStates } from '../../types'
 import {
   Tag, Task, TaskActionTypes, TasksActions,
 } from './types'
@@ -9,6 +10,7 @@ export type TaskState = {
   currentTaskId: string | null;
   tags: Tag[] | null;
   selectedTagId: string | null;
+  taskManagerState: FormStates;
 }
 
 const initialState: TaskState = {
@@ -18,6 +20,7 @@ const initialState: TaskState = {
   currentTaskId: null,
   tags: null,
   selectedTagId: null,
+  taskManagerState: FormStates.CLOSED, // CREATE, UPDATE
 }
 
 export const taskReducer = (state = initialState, action: TasksActions): TaskState => {
@@ -66,6 +69,29 @@ export const taskReducer = (state = initialState, action: TasksActions): TaskSta
       return {
         ...state,
         tasks: Array.isArray(state.tasks) ? [action.payload, ...state.tasks] : [action.payload],
+      }
+    case TaskActionTypes.DELETE_TASK:
+      return {
+        ...state,
+        tasks: (state.tasks) ? [...state.tasks.filter(task => task.id !== action.payload)] : state.tasks,
+      }
+    case TaskActionTypes.SET_TASK_MANAGER_STATE:
+      return {
+        ...state,
+        taskManagerState: action.payload,
+      }
+    case TaskActionTypes.EDIT_TASK:
+      return {
+        ...state,
+        tasks: Array.isArray(state.tasks)
+          ? [...state.tasks.map((task) => {
+            if (task.id === action.payload.id) {
+              return action.payload
+            }
+
+            return task
+          })]
+          : state.tasks,
       }
     default:
       return state

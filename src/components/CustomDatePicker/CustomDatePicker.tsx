@@ -45,6 +45,7 @@ const CustomDatePicker: FC<CustomDatePickerProps> = ({ name, selected, onChange 
   return (
     <DatePicker
       selected={selected}
+      minDate={selected}
       onChange={date => onChange(date)}
       calendarClassName={styles.customDatePicker}
       popperClassName={styles.customPopper}
