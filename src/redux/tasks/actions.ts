@@ -38,7 +38,7 @@ export const clearTasks = (): ClearTasksAction => ({
   type: TaskActionTypes.CLEAR_TASKS,
 })
 
-export const setCurrentTaskId = (id: string): SetCurrentTaskIdAction => ({
+export const setCurrentTaskId = (id: string | null): SetCurrentTaskIdAction => ({
   type: TaskActionTypes.SET_CURRENT_TASK_ID,
   payload: id,
 })

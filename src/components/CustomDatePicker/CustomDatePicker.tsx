@@ -3,6 +3,7 @@ import {
 } from 'react'
 import { Button, InputLabel } from '@mui/material'
 import DatePicker from 'react-datepicker'
+import { endOfDay } from 'date-fns'
 
 import 'react-datepicker/dist/react-datepicker.css'
 import styles from './CustomDatePicker.module.css'
@@ -20,6 +21,7 @@ type CustomDatePickerProps = {
 
 const CustomDatePicker: FC<CustomDatePickerProps> = ({ name, selected, onChange }) => {
   // const [startDate, setStartDate] = useState< Date | null>(new Date())
+  const today = endOfDay(new Date())
 
   // eslint-disable-next-line react/no-unstable-nested-components
   const CustomInput = forwardRef<HTMLButtonElement, DatePickerInput>((props, ref) => (
@@ -44,7 +46,7 @@ const CustomDatePicker: FC<CustomDatePickerProps> = ({ name, selected, onChange 
 
   return (
     <DatePicker
-      selected={selected}
+      selected={selected || today}
       minDate={selected}
       onChange={date => onChange(date)}
       calendarClassName={styles.customDatePicker}

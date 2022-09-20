@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { Box } from '@mui/material'
 import TasksList from '../components/TasksList'
 import TaskForm from '../components/TaskForm/TaskForm'
-import FormControls from '../components/FormControls'
+import Controls from '../components/Controls'
 
 const TaskManagerPage: FC = () => (
   <Box sx={{
@@ -11,7 +11,7 @@ const TaskManagerPage: FC = () => (
     mb: '2rem',
   }}
   >
-    <FormControls sx={{ ml: 'auto' }} />
+    <Controls sx={{ ml: 'auto' }} />
     <Box sx={{
       display: 'grid',
       gap: '1rem',
@@ -19,9 +19,7 @@ const TaskManagerPage: FC = () => (
     }}
     >
       <TasksList />
-      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-        <TaskForm />
-      </Box>
+      <TaskForm />
     </Box>
   </Box>
 )

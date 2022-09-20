@@ -1,4 +1,6 @@
-import { FC, useCallback } from 'react'
+import {
+  FC, useCallback, MouseEvent, useEffect,
+} from 'react'
 import { useFormik } from 'formik'
 // import DatePicker from 'react-datepicker'
 
@@ -8,34 +10,69 @@ import {
 import ClearIcon from '@mui/icons-material/Clear'
 import DoneIcon from '@mui/icons-material/Done'
 import { useSelector, useDispatch } from 'react-redux'
+import { endOfDay } from 'date-fns'
 import CustomDatePicker from '../CustomDatePicker/CustomDatePicker'
 import { selectTask } from '../../redux/tasks/selectors'
 import {
-  createTaskAsync, deleteTaskAsync, setSelectedTagId, updateTaskAsync,
+  deleteTaskAsync, setSelectedTagId, updateTaskAsync,
 } from '../../redux/tasks/actions'
+import { FormStates } from '../../types'
+import { useTask } from './useTask'
+import FormControls from './FormControls'
 
 const TaskForm: FC = () => {
   const dispatch = useDispatch()
   const {
-    tags, selectedTagId, currentTaskId, tasks,
+    tags, selectedTagId, currentTaskId, tasks, taskManagerState,
   } = useSelector(selectTask)
 
+  const { createTask, updateTask } = useTask()
+
   const {
-    handleSubmit, getFieldProps, setFieldValue, resetForm,
+    handleSubmit, getFieldProps, setFieldValue, resetForm, values, initialValues,
   } = useFormik({
     initialValues: {
       completed: false,
       title: '',
       description: '',
-      deadline: new Date(),
+      deadline: endOfDay(new Date()),
       tag: '',
     },
-    onSubmit: (task) => {
-      // console.log(JSON.stringify(task, null, 2))
-      // console.log(task)
-      dispatch(createTaskAsync(task))
-    },
+    enableReinitialize: !currentTaskId,
+    onSubmit: taskManagerState === FormStates.UPDATE ? updateTask : createTask,
   })
+
+  useEffect(() => {
+    if (Array.isArray(tasks)) {
+      if (currentTaskId && taskManagerState === FormStates.UPDATE) {
+        const task = tasks.find(item => item.id === currentTaskId)
+
+        setFieldValue('title', task?.title)
+        setFieldValue('description', task?.description)
+        setFieldValue('deadline', new Date(task?.deadline as string))
+        setFieldValue('tag', task?.tag.id || selectedTagId)
+
+        dispatch(setSelectedTagId(task?.tag.id as string))
+      }
+    }
+
+    if (!currentTaskId && selectedTagId) {
+      setFieldValue('tag', selectedTagId)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentTaskId, taskManagerState])
+
+  useEffect(() => {
+    if (taskManagerState === FormStates.CREATE) {
+      resetForm({
+        values: {
+          ...initialValues,
+          tag: selectedTagId as string,
+        },
+      })
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [taskManagerState])
 
   const handleTagClick = useCallback((tagId: string) => {
     dispatch(setSelectedTagId(tagId))
@@ -65,6 +102,34 @@ const TaskForm: FC = () => {
     }
   }, [currentTaskId, dispatch, resetForm])
 
+  const handleFormReset = useCallback((event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+
+    if (Array.isArray(tasks)) {
+      const task = tasks.find(item => item.id === currentTaskId)
+
+      if (task) {
+        const { title, description, deadline } = task
+        resetForm({
+          values: {
+            ...values,
+            title,
+            description,
+            deadline: new Date(deadline),
+          },
+        })
+      } else {
+        resetForm()
+      }
+    }
+  }, [currentTaskId, resetForm, tasks, values])
+
+  const isFormVisible = taskManagerState === FormStates.CREATE || taskManagerState === FormStates.UPDATE
+
+  if (!isFormVisible) {
+    return null
+  }
+
   return (
     <Box
       component="form"
@@ -81,16 +146,19 @@ const TaskForm: FC = () => {
         <Button
           startIcon={<DoneIcon />}
           onClick={completeTask}
+          disabled={taskManagerState === FormStates.CREATE}
         >
           Complete
         </Button>
-        <IconButton
-          aria-label="delete"
-          color="error"
-          onClick={removeTask}
-        >
-          <ClearIcon />
-        </IconButton>
+        {taskManagerState === FormStates.UPDATE && (
+          <IconButton
+            aria-label="delete"
+            color="error"
+            onClick={removeTask}
+          >
+            <ClearIcon />
+          </IconButton>
+        )}
       </Box>
       <TextField
         label="Title"
@@ -101,15 +169,6 @@ const TaskForm: FC = () => {
         // helperText={errors.name && touched.name && errors.name}
         {...getFieldProps('title')}
       />
-      {/* <DatePicker
-        name="date"
-        selected={getFieldProps('date').value}
-        onChange={(date: Date) => {
-          console.log('date >> ', date)
-
-          setFieldValue('date', date)
-        }}
-      /> */}
       <CustomDatePicker
         name="deadline"
         selected={getFieldProps('deadline').value}
@@ -130,7 +189,11 @@ const TaskForm: FC = () => {
       {tags?.length && (
         <Stack
           direction="row"
-          sx={{ mt: '1rem', gap: '.5rem', flexWrap: 'wrap' }}
+          sx={{
+            mt: '1rem',
+            gap: '.5rem',
+            flexWrap: 'wrap',
+          }}
         >
           {tags.map(tag => (
             <Chip
@@ -148,36 +211,7 @@ const TaskForm: FC = () => {
         </Stack>
       )}
 
-      <Stack
-        direction={{ sm: 'row' }}
-        sx={{
-          flexWrap: 'wrap', gap: '1rem', mt: '1.5rem',
-        }}
-      >
-        <Button
-          sx={{
-            minWidth: {
-              sm: '10rem',
-            },
-          }}
-          variant="contained"
-          color="error"
-        >
-          Reset
-        </Button>
-        <Button
-          type="submit"
-          sx={{
-            minWidth: {
-              sm: '10rem',
-            },
-          }}
-          variant="contained"
-        >
-          Save
-        </Button>
-      </Stack>
-
+      <FormControls handleFormReset={handleFormReset} />
     </Box>
   )
 }

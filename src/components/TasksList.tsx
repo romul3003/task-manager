@@ -6,10 +6,11 @@ import CheckBoxOutlineBlankRoundedIcon from '@mui/icons-material/CheckBoxOutline
 import CheckBoxRoundedIcon from '@mui/icons-material/CheckBoxRounded'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectTask } from '../redux/tasks/selectors'
-import { setCurrentTaskId } from '../redux/tasks/actions'
+import { setCurrentTaskId, setTaskManagerState } from '../redux/tasks/actions'
+import { FormStates } from '../types'
 
 const TasksList: FC = () => {
-  const { isLoading, tasks } = useSelector(selectTask)
+  const { isLoading, tasks, currentTaskId } = useSelector(selectTask)
   const dispatch = useDispatch()
 
   if (isLoading) {
@@ -17,6 +18,7 @@ const TasksList: FC = () => {
   }
 
   const onListItemClick = (id: string) => {
+    dispatch(setTaskManagerState(FormStates.UPDATE))
     dispatch(setCurrentTaskId(id))
   }
 
@@ -41,6 +43,7 @@ const TasksList: FC = () => {
                       gap: '1rem',
                     }}
                     onClick={() => onListItemClick(task.id)}
+                    selected={task.id === currentTaskId}
                   >
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
                       {task.completed ? <CheckBoxRoundedIcon color="primary" /> : <CheckBoxOutlineBlankRoundedIcon />}
@@ -65,7 +68,11 @@ const TasksList: FC = () => {
                       <span>{new Intl.DateTimeFormat('uk-UA').format(new Date(task?.deadline))}</span>
                       <Chip
                         label={task.tag.name}
-                        sx={{ backgroundColor: task.tag.bg, color: task.tag.color }}
+                        sx={{
+                          width: '5rem',
+                          backgroundColor: task.tag.bg,
+                          color: task.tag.color,
+                        }}
                       />
                     </Box>
                   </ListItemButton>

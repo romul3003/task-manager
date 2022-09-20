@@ -59,7 +59,7 @@ export type ClearTasksAction = {
 
 export type SetCurrentTaskIdAction = {
   type: TaskActionTypes.SET_CURRENT_TASK_ID;
-  payload: string;
+  payload: string | null;
 }
 
 export type LoadTagsAsyncAction = {

@@ -1,7 +1,7 @@
 import { CreatedTask } from '../redux/tasks/types'
 
 export const tasks = {
-  fetchTasks() {
+  fetchTasks: () => {
     const localToken = localStorage.getItem('jwt')
 
     return fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
@@ -12,7 +12,7 @@ export const tasks = {
     })
   },
 
-  create(newTask: CreatedTask) {
+  create: (newTask: CreatedTask) => {
     const localToken = localStorage.getItem('jwt')
 
     return fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
@@ -49,7 +49,7 @@ export const tasks = {
     })
   },
 
-  fetchTags() {
+  fetchTags: () => {
     const localToken = localStorage.getItem('jwt')
 
     return fetch(`${process.env.REACT_APP_API_URL}/tags`, {

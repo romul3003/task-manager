@@ -3,7 +3,7 @@ import {
   takeEvery, put, call, apply,
 } from 'redux-saga/effects'
 import { api } from '../../api'
-import { FormStates } from '../../types'
+import { FetchedError, FormStates } from '../../types'
 import {
   createTask, deleteTask, editTask, fillTags, fillTasks, loadTasksFailure, setTaskManagerState,
 } from './actions'
@@ -74,7 +74,8 @@ function* updateTaskAsyncSaga({ payload }: UpdateTaskAsyncAction): SagaIterator 
       yield put(editTask(task))
       yield put(setTaskManagerState(FormStates.CLOSED))
     } else {
-      throw new Error(`Status: ${response?.status}. Request error. Please, repeat after few minutes or contact the administrator`)
+      const error: FetchedError = yield apply(response, response.json, [])
+      throw new Error(`Status: ${response?.status}. Request error. ${error.message}`)
     }
   } catch (error) {
     yield put(loadTasksFailure(error as Error))
