@@ -6,6 +6,9 @@ import App from './App'
 
 import { store, history } from './init/store'
 
+import 'react-datepicker/dist/react-datepicker.css'
+import 'react-toastify/dist/ReactToastify.min.css'
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 )

@@ -57,3 +57,9 @@ export enum FormStates {
   UPDATE = 'UPDATE',
   CLOSED = 'CLOSED',
 }
+
+export enum ToastTypes {
+  SUCCESS = 'success',
+  ERROR = 'error',
+  INFO = 'info',
+}

@@ -4,10 +4,11 @@ import {
 } from 'redux-saga/effects'
 import { api } from '../../api'
 import {
-  FetchedError, FormStates, Tag, Task,
+  FetchedError, FormStates, Tag, Task, ToastTypes,
 } from '../../types'
+import { setNotification } from '../ui/actions'
 import {
-  createTask, deleteTask, editTask, fillTags, fillTasks, loadTasksFailure, setTaskManagerState,
+  createTask, deleteTask, editTask, fillTags, fillTasks, loadTasksFailure, setSelectedTagId, setTaskManagerState,
 } from './actions'
 import {
   CreateTaskAsyncAction, DeleteTaskAsyncAction, TaskActionTypes, UpdateTaskAsyncAction,
@@ -32,7 +33,15 @@ function* loadTagsAsyncSaga(): SagaIterator {
   if (response?.ok) {
     const tags: Tag[] = yield apply(response, response.json, [])
 
-    yield put(fillTags(tags))
+    if (Array.isArray(tags) && tags.length) {
+      yield put(fillTags(tags))
+      yield put(setSelectedTagId(tags[0].id))
+    } else {
+      yield put(setNotification({
+        type: ToastTypes.ERROR,
+        message: 'There are no tags.',
+      }))
+    }
   }
 }
 
@@ -43,8 +52,17 @@ function* createTaskAsyncSaga({ payload: createdTask }: CreateTaskAsyncAction): 
       const { data: newTask }: {data: Task} = yield apply(response, response.json, [])
       yield put(createTask(newTask))
       yield put(setTaskManagerState(FormStates.CLOSED))
+      yield put(setNotification({
+        type: ToastTypes.INFO,
+        message: 'The task was added',
+      }))
     } else {
-      throw new Error(`Status: ${response?.status}. Request error. Please, repeat after few minutes or contact the administrator`)
+      const error: FetchedError = yield apply(response, response.json, [])
+      yield put(setNotification({
+        type: ToastTypes.ERROR,
+        message: error.message,
+      }))
+      throw new Error(`Status: ${response?.status}. ${error.message}. Please, repeat after few minutes or contact the administrator`)
     }
   } catch (error) {
     yield put(loadTasksFailure(error as Error))
@@ -57,6 +75,10 @@ function* deleteTaskAsyncSaga({ payload: taskId }: DeleteTaskAsyncAction): SagaI
     if (response?.ok) {
       yield put(deleteTask(taskId))
       yield put(setTaskManagerState(FormStates.CLOSED))
+      yield put(setNotification({
+        type: ToastTypes.INFO,
+        message: 'The task was deleted',
+      }))
     } else {
       throw new Error(`Status: ${response?.status}. Request error. Please, repeat after few minutes or contact the administrator`)
     }
@@ -75,8 +97,16 @@ function* updateTaskAsyncSaga({ payload }: UpdateTaskAsyncAction): SagaIterator 
       const { data: task }: {data: Task} = yield apply(response, response.json, [])
       yield put(editTask(task))
       yield put(setTaskManagerState(FormStates.CLOSED))
+      yield put(setNotification({
+        type: ToastTypes.INFO,
+        message: `The task with id ${task.id} was successfully updated.`,
+      }))
     } else {
       const error: FetchedError = yield apply(response, response.json, [])
+      yield put(setNotification({
+        type: ToastTypes.ERROR,
+        message: error.message,
+      }))
       throw new Error(`Status: ${response?.status}. Request error. ${error.message}`)
     }
   } catch (error) {

@@ -16,8 +16,9 @@ import { styled } from '@mui/material/styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectAuth } from '../redux/auth/selectors'
 import { clearProfile, logout } from '../redux/auth/actions'
-import { NavigationLink } from '../types'
+import { NavigationLink, ToastTypes } from '../types'
 import { clearTasks } from '../redux/tasks/actions'
+import { setNotification } from '../redux/ui/actions'
 
 const links = [
   {
@@ -65,6 +66,7 @@ const Header: FC = () => {
     dispatch(logout())
     dispatch(clearProfile())
     dispatch(clearTasks())
+    dispatch(setNotification({ type: ToastTypes.INFO, message: 'You were logouted' }))
     localStorage.removeItem('jwt')
   }
 

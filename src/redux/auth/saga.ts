@@ -2,6 +2,7 @@ import { SagaIterator } from '@redux-saga/core'
 import {
   call, takeEvery, put, apply, select,
 } from 'redux-saga/effects'
+import { setNotification } from '../ui/actions'
 
 import { selectAuth } from './selectors'
 import {
@@ -12,7 +13,7 @@ import {
   AuthActionTypes, LoginAction, SignUpAction,
 } from './types'
 import { AuthState } from './reducer'
-import { FetchedError, Profile } from '../../types'
+import { FetchedError, Profile, ToastTypes } from '../../types'
 
 function* loadProfileSaga(): SagaIterator {
   try {
@@ -25,8 +26,16 @@ function* loadProfileSaga(): SagaIterator {
         const profile: Profile = yield apply(response, response.json, [])
 
         yield put(fillProfile(profile))
+        yield put(setNotification({
+          type: ToastTypes.SUCCESS,
+          message: `Welcome, ${profile.name}`,
+        }))
       } else {
         const error: FetchedError = yield apply(response, response.json, [])
+        yield put(setNotification({
+          type: ToastTypes.ERROR,
+          message: error.message,
+        }))
         throw new Error(`Status: ${error.statusCode}. Message: ${error.message}. Error: ${error.error}`)
       }
     }
@@ -64,9 +73,11 @@ function* setLoginSaga({ payload }: LoginAction): SagaIterator {
       yield put(loadProfile())
     // eslint-disable-next-line no-magic-numbers
     } else if (response?.status === 401) {
-      throw new Error(`Status: ${response?.status}. Wrong login or password. Please check your data`)
+      const error: FetchedError = yield apply(response, response.json, [])
+      throw new Error(`Status: ${response?.status}. ${error.message}. Please check your data`)
     } else {
-      throw new Error(`Status: ${response?.status}. Request error. Please, repeat after few minutes or contact the administrator`)
+      const error: FetchedError = yield apply(response, response.json, [])
+      throw new Error(`Status: ${response?.status}. ${error.message}. Please, repeat after few minutes or contact the administrator`)
     }
   } catch (error) {
     yield put(loadAuthFailure(error as Error))

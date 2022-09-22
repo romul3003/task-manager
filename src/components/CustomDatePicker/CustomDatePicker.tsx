@@ -5,7 +5,6 @@ import { Button, InputLabel } from '@mui/material'
 import DatePicker from 'react-datepicker'
 import { endOfDay } from 'date-fns'
 
-import 'react-datepicker/dist/react-datepicker.css'
 import styles from './CustomDatePicker.module.css'
 
 type DatePickerInput = {
