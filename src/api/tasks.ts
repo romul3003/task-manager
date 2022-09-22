@@ -1,4 +1,4 @@
-import { CreatedTask } from '../redux/tasks/types'
+import { CreatedTask } from '../types'
 
 export const tasks = {
   fetchTasks: () => {

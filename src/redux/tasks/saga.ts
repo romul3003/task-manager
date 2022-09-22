@@ -3,12 +3,14 @@ import {
   takeEvery, put, call, apply,
 } from 'redux-saga/effects'
 import { api } from '../../api'
-import { FetchedError, FormStates } from '../../types'
+import {
+  FetchedError, FormStates, Tag, Task,
+} from '../../types'
 import {
   createTask, deleteTask, editTask, fillTags, fillTasks, loadTasksFailure, setTaskManagerState,
 } from './actions'
 import {
-  CreateTaskAsyncAction, DeleteTaskAsyncAction, Tag, Task, TaskActionTypes, UpdateTaskAsyncAction,
+  CreateTaskAsyncAction, DeleteTaskAsyncAction, TaskActionTypes, UpdateTaskAsyncAction,
 } from './types'
 
 function* loadTasksAsyncSaga(): SagaIterator {

@@ -1,25 +1,6 @@
-import { FormStates } from '../../types'
-
-export type Tag = {
-    id: string;
-    name: string;
-    color: string;
-    bg: string;
-}
-
-export type Task = {
-  id: string;
-  completed: boolean;
-  title: string;
-  description: string;
-  deadline: string;
-  tag: Tag;
-}
-
-export type CreatedTask = Pick<Task, 'completed' | 'title' | 'description'> & {
-  deadline: Date;
-  tag: string;
-}
+import {
+  CreatedTask, FormStates, Tag, Task,
+} from '../../types'
 
 export enum TaskActionTypes {
   LOAD_TASKS_ASYNC = 'LOAD_TASKS_ASYNC',

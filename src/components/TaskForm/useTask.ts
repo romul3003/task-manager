@@ -2,8 +2,7 @@ import { FormikHelpers } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
 import { createTaskAsync, updateTaskAsync } from '../../redux/tasks/actions'
 import { selectTask } from '../../redux/tasks/selectors'
-import { CreatedTask } from '../../redux/tasks/types'
-import { FormStates } from '../../types'
+import { CreatedTask, FormStates } from '../../types'
 
 export const useTask = () => {
   const dispatch = useDispatch()

@@ -1,7 +1,5 @@
-import { FormStates } from '../../types'
-import {
-  Tag, Task, TaskActionTypes, TasksActions,
-} from './types'
+import { FormStates, Tag, Task } from '../../types'
+import { TaskActionTypes, TasksActions } from './types'
 
 export type TaskState = {
   isLoading: boolean;

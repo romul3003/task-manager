@@ -31,6 +31,27 @@ export type NavigationLink = {
   shouldBeAuthenticated: boolean,
 }
 
+export type Tag = {
+  id: string;
+  name: string;
+  color: string;
+  bg: string;
+}
+
+export type Task = {
+id: string;
+completed: boolean;
+title: string;
+description: string;
+deadline: string;
+tag: Tag;
+}
+
+export type CreatedTask = Pick<Task, 'completed' | 'title' | 'description'> & {
+deadline: Date;
+tag: string;
+}
+
 export enum FormStates {
   CREATE = 'CREATE',
   UPDATE = 'UPDATE',

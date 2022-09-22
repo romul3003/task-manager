@@ -1,7 +1,7 @@
-import { FormStates } from '../../types'
 import {
-  Task,
-  Tag,
+  CreatedTask, FormStates, Tag, Task,
+} from '../../types'
+import {
   LoadTasksAsyncAction,
   FillTasksAction,
   TaskActionTypes,
@@ -12,7 +12,6 @@ import {
   FillTagsAction,
   SetSelectedTagIdAction,
   CreateTaskAsyncAction,
-  CreatedTask,
   CreateTaskAction,
   DeleteTaskAction,
   DeleteTaskAsyncAction,
