@@ -1,11 +1,11 @@
+/* eslint-disable max-lines */
 import {
   FC, useCallback, MouseEvent, useEffect,
 } from 'react'
 import { useFormik } from 'formik'
-// import DatePicker from 'react-datepicker'
 
 import {
-  Box, Button, TextField, Stack, Chip, IconButton,
+  Box, Button, TextField, Stack, Chip, IconButton, FormHelperText,
 } from '@mui/material'
 import ClearIcon from '@mui/icons-material/Clear'
 import DoneIcon from '@mui/icons-material/Done'
@@ -19,6 +19,7 @@ import {
 import { FormStates } from '../../types'
 import { useTask } from './useTask'
 import FormControls from './FormControls'
+import { taskSchema } from './config'
 
 const TaskForm: FC = () => {
   const dispatch = useDispatch()
@@ -29,7 +30,14 @@ const TaskForm: FC = () => {
   const { createTask, updateTask } = useTask()
 
   const {
-    handleSubmit, getFieldProps, setFieldValue, resetForm, values, initialValues,
+    handleSubmit,
+    getFieldProps,
+    setFieldValue,
+    resetForm,
+    values,
+    // initialValues,
+    errors,
+    touched,
   } = useFormik({
     initialValues: {
       completed: false,
@@ -38,6 +46,7 @@ const TaskForm: FC = () => {
       deadline: endOfDay(new Date()),
       tag: '',
     },
+    validationSchema: taskSchema,
     enableReinitialize: !currentTaskId,
     onSubmit: taskManagerState === FormStates.UPDATE ? updateTask : createTask,
   })
@@ -64,12 +73,8 @@ const TaskForm: FC = () => {
 
   useEffect(() => {
     if (taskManagerState === FormStates.CREATE) {
-      resetForm({
-        values: {
-          ...initialValues,
-          tag: selectedTagId as string,
-        },
-      })
+      resetForm()
+      setFieldValue('tag', selectedTagId ?? '')
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [taskManagerState])
@@ -165,8 +170,8 @@ const TaskForm: FC = () => {
         fullWidth
         placeholder="To finish the project"
         sx={{ mb: '1rem' }}
-        // error={!!(errors.name && touched.name)}
-        // helperText={errors.name && touched.name && errors.name}
+        error={!!(errors.title && touched.title)}
+        helperText={errors.title && touched.title && errors.title}
         {...getFieldProps('title')}
       />
       <CustomDatePicker
@@ -176,39 +181,59 @@ const TaskForm: FC = () => {
           setFieldValue('deadline', date)
         }}
       />
+      {touched.deadline && errors.deadline ? (
+        <FormHelperText
+          error={!!(touched.deadline && errors.deadline)}
+          sx={{ margin: '0 14px' }}
+        >
+          {errors.deadline as string || 'Required'}
+        </FormHelperText>
+      )
+        : null}
       <TextField
         label="Description"
         margin="normal"
         multiple
         fullWidth
         placeholder="To study new technologies and finish the project, "
-        // error={!!(errors.name && touched.name)}
-        // helperText={errors.name && touched.name && errors.name}
+        error={!!(errors.description && touched.description)}
+        helperText={errors.description && touched.description && errors.description}
         {...getFieldProps('description')}
       />
       {tags?.length && (
-        <Stack
-          direction="row"
-          sx={{
-            mt: '1rem',
-            gap: '.5rem',
-            flexWrap: 'wrap',
-          }}
-        >
-          {tags.map(tag => (
-            <Chip
-              key={tag.id}
-              label={tag.name}
-              onClick={() => handleTagClick(tag.id)}
-              sx={{
-                backgroundColor: tag.bg,
-                color: tag.color,
-                // eslint-disable-next-line no-magic-numbers
-                boxShadow: tag.id === selectedTagId ? 3 : 0,
-              }}
-            />
-          ))}
-        </Stack>
+        <>
+          <Stack
+            direction="row"
+            sx={{
+              mt: '1rem',
+              gap: '.5rem',
+              flexWrap: 'wrap',
+            }}
+          >
+            {tags.map(tag => (
+              <Chip
+                key={tag.id}
+                label={tag.name}
+                onClick={() => handleTagClick(tag.id)}
+                sx={{
+                  backgroundColor: tag.bg,
+                  color: tag.color,
+                  // eslint-disable-next-line no-magic-numbers
+                  boxShadow: tag.id === selectedTagId ? 3 : 0,
+                }}
+              />
+            ))}
+          </Stack>
+          {touched.tag && errors.tag ? (
+            <FormHelperText
+              error={!!(touched.tag && errors.tag)}
+              sx={{ margin: '0 14px' }}
+            >
+              {errors.tag}
+            </FormHelperText>
+          )
+            : null}
+        </>
       )}
 
       <FormControls handleFormReset={handleFormReset} />
