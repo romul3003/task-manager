@@ -195,7 +195,7 @@ const TaskForm: FC = () => {
         margin="normal"
         multiple
         fullWidth
-        placeholder="To study new technologies and finish the project, "
+        placeholder="To study new technologies and finish the project"
         error={!!(errors.description && touched.description)}
         helperText={errors.description && touched.description && errors.description}
         {...getFieldProps('description')}
