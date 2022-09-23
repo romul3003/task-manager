@@ -60,6 +60,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "serve": "serve \"./build\" -s",
     "eject": "react-scripts eject",
     "lint": "eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json}\"",
     "prepare": "husky install"
