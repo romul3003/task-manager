@@ -6,12 +6,12 @@ import { middleware, sagaMiddleware } from './middleware'
 import rootSaga from './rootSaga'
 import { createReduxHistory } from './reduxHistoryContext'
 
-const DEV = process.env.NODE_ENV === 'development'
+const isDev = process.env.NODE_ENV === 'development'
 
 // mount it on the Store
 export const store = createStore(
   rootReducer,
-  DEV ? composeWithDevTools(applyMiddleware(...middleware)) : applyMiddleware(...middleware),
+  isDev ? composeWithDevTools(applyMiddleware(...middleware)) : applyMiddleware(...middleware),
 )
 
 // then run the saga
