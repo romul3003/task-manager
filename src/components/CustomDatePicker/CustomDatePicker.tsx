@@ -19,7 +19,6 @@ type CustomDatePickerProps = {
 }
 
 const CustomDatePicker: FC<CustomDatePickerProps> = ({ name, selected, onChange }) => {
-  // const [startDate, setStartDate] = useState< Date | null>(new Date())
   const today = endOfDay(new Date())
 
   // eslint-disable-next-line react/no-unstable-nested-components
