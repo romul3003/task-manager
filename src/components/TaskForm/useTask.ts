@@ -18,9 +18,9 @@ export const useTask = () => {
     resetForm()
   }
 
-  const updateTask = (task: CreatedTask, { resetForm }: FormikHelpers<CreatedTask>) => {
+  const updateTask = (editedTask: CreatedTask, { resetForm }: FormikHelpers<CreatedTask>) => {
     if (taskManagerState === FormStates.UPDATE) {
-      dispatch(updateTaskAsync(currentTaskId as string, task))
+      dispatch(updateTaskAsync(currentTaskId as string, editedTask))
     } else {
       throw new Error('Wrong status of operation. Is should be "update" operation')
     }

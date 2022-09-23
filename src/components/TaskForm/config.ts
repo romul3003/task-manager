@@ -5,7 +5,7 @@ const tooShortMessage = 'Min length of the ${path} — ${min}'
 const tooLongMessage = 'Max length of the ${path} — ${max}'
 const requiredMessage = 'Field ${path} is required'
 
-type TaskFormShape = {
+export type TaskFormShape = {
   title: string;
   deadline: Date | undefined;
   tag: string;

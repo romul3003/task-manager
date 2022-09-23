@@ -1,11 +1,9 @@
-/* eslint-disable max-lines */
 import {
   FC, useCallback, MouseEvent, useEffect,
 } from 'react'
 import { useFormik } from 'formik'
-
 import {
-  Box, Button, TextField, Stack, Chip, IconButton, FormHelperText,
+  Box, Button, TextField, IconButton, FormHelperText,
 } from '@mui/material'
 import ClearIcon from '@mui/icons-material/Clear'
 import DoneIcon from '@mui/icons-material/Done'
@@ -20,11 +18,12 @@ import { FormStates } from '../../types'
 import { useTask } from './useTask'
 import FormControls from './FormControls'
 import { taskSchema } from './config'
+import Tags from '../Tags'
 
 const TaskForm: FC = () => {
   const dispatch = useDispatch()
   const {
-    tags, selectedTagId, currentTaskId, tasks, taskManagerState,
+    selectedTagId, tags, currentTaskId, tasks, taskManagerState,
   } = useSelector(selectTask)
 
   const { createTask, updateTask } = useTask()
@@ -57,6 +56,7 @@ const TaskForm: FC = () => {
       if (currentTaskId && taskManagerState === FormStates.UPDATE) {
         const task = tasks.find(item => item.id === currentTaskId)
 
+        setFieldValue('completed', task?.completed)
         setFieldValue('title', task?.title)
         setFieldValue('description', task?.description)
         setFieldValue('deadline', new Date(task?.deadline as string))
@@ -113,7 +113,6 @@ const TaskForm: FC = () => {
 
     if (Array.isArray(tasks)) {
       const task = tasks.find(item => item.id === currentTaskId)
-
       if (task) {
         const { title, description, deadline } = task
         resetForm({
@@ -142,11 +141,7 @@ const TaskForm: FC = () => {
       noValidate
       autoComplete="off"
       onSubmit={handleSubmit}
-      sx={{
-        borderRadius: '0.75rem',
-        padding: '2rem',
-        backgroundColor: '#fff',
-      }}
+      sx={{ borderRadius: '0.75rem', padding: '2rem', backgroundColor: '#fff' }}
     >
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Button
@@ -182,15 +177,14 @@ const TaskForm: FC = () => {
           setFieldValue('deadline', date)
         }}
       />
-      {touched.deadline && errors.deadline ? (
+      {touched.deadline && errors.deadline && (
         <FormHelperText
           error={!!(touched.deadline && errors.deadline)}
           sx={{ margin: '0 14px' }}
         >
           {errors.deadline as string || 'Required'}
         </FormHelperText>
-      )
-        : null}
+      )}
       <TextField
         label="Description"
         margin="normal"
@@ -201,42 +195,19 @@ const TaskForm: FC = () => {
         helperText={errors.description && touched.description && errors.description}
         {...getFieldProps('description')}
       />
-      {tags?.length && (
-        <>
-          <Stack
-            direction="row"
-            sx={{
-              mt: '1rem',
-              gap: '.5rem',
-              flexWrap: 'wrap',
-            }}
-          >
-            {tags.map(tag => (
-              <Chip
-                key={tag.id}
-                label={tag.name}
-                onClick={() => handleTagClick(tag.id)}
-                sx={{
-                  backgroundColor: tag.bg,
-                  color: tag.color,
-                  // eslint-disable-next-line no-magic-numbers
-                  boxShadow: tag.id === selectedTagId ? 3 : 0,
-                }}
-              />
-            ))}
-          </Stack>
-          {touched.tag && errors.tag ? (
-            <FormHelperText
-              error={!!(touched.tag && errors.tag)}
-              sx={{ margin: '0 14px' }}
-            >
-              {errors.tag}
-            </FormHelperText>
-          )
-            : null}
-        </>
+      <Tags
+        handleTagClick={handleTagClick}
+        tags={tags}
+        selectedTagId={selectedTagId}
+      />
+      {touched.tag && errors.tag && (
+        <FormHelperText
+          error={!!(touched.tag && errors.tag)}
+          sx={{ margin: '0 14px' }}
+        >
+          {errors.tag}
+        </FormHelperText>
       )}
-
       <FormControls
         handleFormReset={handleFormReset}
         dirty={dirty}
