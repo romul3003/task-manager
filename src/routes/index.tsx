@@ -7,7 +7,7 @@ import SignUpPage from '../pages/SignUpPage'
 import TaskManagerPage from '../pages/TaskManagerPage'
 import ProfilePage from '../pages/ProfilePage'
 import { ROUTES } from './routes'
-import RequireAuth from '../components/RequireAuth'
+import Guardian from '../components/Guardian'
 
 const RoutesComponent: FC = () => (
   <Routes>
@@ -23,17 +23,17 @@ const RoutesComponent: FC = () => (
     <Route
       path={ROUTES.TASK_MANAGER}
       element={(
-        <RequireAuth>
+        <Guardian>
           <TaskManagerPage />
-        </RequireAuth>
+        </Guardian>
       )}
     />
     <Route
       path={ROUTES.PROFILE}
       element={(
-        <RequireAuth>
+        <Guardian>
           <ProfilePage />
-        </RequireAuth>
+        </Guardian>
       )}
     />
     <Route

@@ -46,6 +46,7 @@ export const taskReducer = (state = initialState, action: TasksActions): TaskSta
     case TaskActionTypes.CLEAR_TASKS:
       return {
         ...initialState,
+        tags: state.tags,
       }
     case TaskActionTypes.SET_CURRENT_TASK_ID:
       return {
