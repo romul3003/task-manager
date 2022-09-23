@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 
 import Layout from './components/Layout'
-import { setToken, loadProfile } from './redux/auth/actions'
+import { setToken, loadProfileAsync } from './redux/auth/actions'
 import { selectAuth } from './redux/auth/selectors'
 import { loadTagsAsync, loadTasksAsync } from './redux/tasks/actions'
 import RoutesComponent from './routes'
@@ -22,7 +22,7 @@ const App: FC = () => {
 
     if (savedToken) {
       dispatch(setToken(savedToken))
-      dispatch(loadProfile())
+      dispatch(loadProfileAsync())
     }
   }, [dispatch])
 
@@ -42,7 +42,6 @@ const App: FC = () => {
   return (
     <>
       <ToastContainer autoClose={2000} />
-
       <Layout>
         <RoutesComponent />
       </Layout>

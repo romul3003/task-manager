@@ -5,7 +5,7 @@ import {
   SignUpAction,
   SetTokenAction,
   LoadAuthFailureAction,
-  LoadProfileAction,
+  LoadProfileAsyncAction,
   FillProfileAction,
   LogoutAction,
   ClearProfileAction,
@@ -31,8 +31,8 @@ export const loadAuthFailure = (error: Error): LoadAuthFailureAction => ({
   payload: error.message,
 })
 
-export const loadProfile = (): LoadProfileAction => ({
-  type: AuthActionTypes.LOAD_PROFILE,
+export const loadProfileAsync = (): LoadProfileAsyncAction => ({
+  type: AuthActionTypes.LOAD_PROFILE_ASYNC,
 })
 
 export const fillProfile = (profile: Profile): FillProfileAction => ({

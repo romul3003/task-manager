@@ -35,9 +35,10 @@ const TaskForm: FC = () => {
     setFieldValue,
     resetForm,
     values,
-    // initialValues,
     errors,
     touched,
+    dirty,
+    isValid,
   } = useFormik({
     initialValues: {
       completed: false,
@@ -236,7 +237,11 @@ const TaskForm: FC = () => {
         </>
       )}
 
-      <FormControls handleFormReset={handleFormReset} />
+      <FormControls
+        handleFormReset={handleFormReset}
+        dirty={dirty}
+        isValid={isValid}
+      />
     </Box>
   )
 }

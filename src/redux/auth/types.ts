@@ -5,7 +5,7 @@ export enum AuthActionTypes {
   LOGIN = 'LOGIN',
   SET_TOKEN = 'SET_TOKEN',
   LOAD_AUTH_FAILURE = 'LOAD_AUTH_FAILURE',
-  LOAD_PROFILE = 'LOAD_PROFILE',
+  LOAD_PROFILE_ASYNC = 'LOAD_PROFILE_ASYNC',
   FILL_PROFILE = 'FILL_PROFILE',
   LOGOUT = 'LOGOUT',
   CLEAR_PROFILE = 'CLEAR_PROFILE',
@@ -31,8 +31,8 @@ export type LoadAuthFailureAction = {
   payload: string;
 }
 
-export type LoadProfileAction = {
-  type: AuthActionTypes.LOAD_PROFILE;
+export type LoadProfileAsyncAction = {
+  type: AuthActionTypes.LOAD_PROFILE_ASYNC;
 }
 
 export type FillProfileAction = {
@@ -53,7 +53,7 @@ export type AuthActions =
   | LoginAction
   | SetTokenAction
   | LoadAuthFailureAction
-  | LoadProfileAction
+  | LoadProfileAsyncAction
   | FillProfileAction
   | LogoutAction
   | ClearProfileAction

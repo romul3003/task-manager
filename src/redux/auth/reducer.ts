@@ -48,7 +48,7 @@ export const authReducer = (state = initialState, action: AuthActions): AuthStat
         isAuthenticated: false,
       }
     }
-    case AuthActionTypes.LOAD_PROFILE: {
+    case AuthActionTypes.LOAD_PROFILE_ASYNC: {
       return {
         ...state,
         profileLoading: true,
